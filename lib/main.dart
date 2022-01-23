@@ -20,35 +20,48 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Turnos Por Pagar"),
+        title: Text("Turnos por pagar de {Carer}"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'Timesheet goes here',
             ),
-            Expanded(child:
-            Align(alignment: Alignment.bottomCenter,
-                child:Text(
-                  '5',
-                  style: Theme.of(context).textTheme.headline4,
-                ))
-            )
+            Expanded(
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Text('REGISTRAR TURNO',
+                                style: TextStyle(fontSize: 18)),
+                          ),
+                        )
+                        ,
+                        SizedBox(
+                          width: double.infinity,
+                          // height: double.infinity,
+                          child: Container(
+                            color: Colors.green,
+                            padding: EdgeInsets.all(4),
+                            child: Text("Total Horas Trabajadas: 14",style: TextStyle(fontSize: 20)),
+                          ),
+                        )
+                      ],
+                    )))
           ],
         ),
       ),
     );
   }
-
-
 }
-
-
