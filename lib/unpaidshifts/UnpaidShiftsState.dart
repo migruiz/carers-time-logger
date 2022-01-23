@@ -1,2 +1,3 @@
 abstract class UnpaidShiftsState {}
-class Loading extends UnpaidShiftsState{}
+class LoadingState extends UnpaidShiftsState{}
+class LoadedState extends UnpaidShiftsState{}
