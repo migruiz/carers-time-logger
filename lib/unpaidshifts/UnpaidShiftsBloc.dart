@@ -21,6 +21,7 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
             start: (m['start'] as Timestamp).toDate(),
             end: (m['end'] as Timestamp).toDate()))
         .toList();
+    shifts.sort((a,b) => a.start.compareTo(b.start));
     emit(LoadedState(shifts: shifts));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'RegisterUnpaidShiftEvent.dart';
@@ -10,5 +11,14 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
     on<EndDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftState(start: state.start, end: event.value)));
   }
 
+  save() async{
+    CollectionReference carerUnpaidTime =
+    FirebaseFirestore.instance.collection('carers/alejandra/unpaidtime');
+    final result = await carerUnpaidTime.add({
+      'start':Timestamp.fromDate(state.start!),
+      'end':Timestamp.fromDate(state.end!)
+    });
+
+  }
 
 }

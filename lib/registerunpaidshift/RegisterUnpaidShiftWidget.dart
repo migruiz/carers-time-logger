@@ -20,7 +20,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                   leading: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
-                      Navigator.pop(context,true);
+                      Navigator.pop(context,null);
                     },
                   ),
                 ),
@@ -62,16 +62,13 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                               child: Row(
                                 children: [
                                   ElevatedButton(
+
                                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
-                                    onPressed: () async{
+                                    onPressed:!state.isValid? null :  () async{
 
-                                      await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              fullscreenDialog: true,
-                                              builder: (BuildContext context) =>
-                                                  RegisterUnpaidShiftWidget()));
 
+                                      await bloc.save();
+                                      Navigator.pop(context,null);
 
                                     },
                                     child: Text('GUARDAR',
@@ -80,14 +77,8 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                                   Spacer(),
                                   ElevatedButton(
                                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
-                                    onPressed: () async{
+                                    onPressed: true?null: () async{
 
-                                      await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              fullscreenDialog: true,
-                                              builder: (BuildContext context) =>
-                                                  RegisterUnpaidShiftWidget()));
 
 
                                     },
