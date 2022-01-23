@@ -9,8 +9,7 @@ import 'RegisterUnpaidShiftState.dart';
 class RegisterUnpaidShiftWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BlocProvider(
+    return  BlocProvider(
         create: (_) => RegisterUnpaidShiftBloc()..add(NewShiftEvent()),
         child: BlocBuilder<RegisterUnpaidShiftBloc, RegisterUnpaidShiftState>(
             builder: (context, state) {
@@ -18,6 +17,12 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
               return Scaffold(
                 appBar: AppBar(
                   title: Text("Registro de Turno"),
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context,true);
+                    },
+                  ),
                 ),
                 body: Container(
                   padding: EdgeInsets.all(10),
@@ -98,8 +103,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
               );
             }
         ),
-      ),
-    );
+      );
   }
 
   Widget getEndWidget(RegisterUnpaidShiftState state, BuildContext context, RegisterUnpaidShiftBloc bloc)  {

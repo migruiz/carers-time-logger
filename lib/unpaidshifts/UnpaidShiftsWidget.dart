@@ -15,6 +15,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
         create: (_) => UnpaidShiftsBloc()..add(LoadDataEvent()),
         child: BlocBuilder<UnpaidShiftsBloc, UnpaidShiftsState>(
             builder: (context, state) {
+              final bloc = BlocProvider.of<UnpaidShiftsBloc>(context);
               if (state is LoadedState) {
                 final shifts = state.shifts;
                 return Scaffold(
@@ -103,7 +104,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                                   builder: (BuildContext context) =>
                                                       RegisterUnpaidShiftWidget()));
 
-
+                                            bloc.add(LoadDataEvent());
                                         },
                                         child: Text('REGISTRAR TURNO',
                                             style: TextStyle(fontSize: 18)),
