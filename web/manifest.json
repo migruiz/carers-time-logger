@@ -1,11 +1,11 @@
 {
-    "name": "myanimate",
-    "short_name": "myanimate",
+    "name": "carerstimelogger",
+    "short_name": "carerstimelogger",
     "start_url": ".",
-    "display": "minimal-ui",
+    "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Carers Time Logger",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
