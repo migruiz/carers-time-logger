@@ -26,6 +26,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                       children: <Widget>[
                         ListView.builder(
                             scrollDirection: Axis.vertical,
+                            padding: EdgeInsets.all(8),
                             shrinkWrap: true,
                             itemCount: shifts.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -34,21 +35,53 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                   onTap: () async{
                                   },
                                   child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children:[
-                                        Container(
-                                          padding: const EdgeInsets.only(top: 15, bottom: 15),
-                                          child: Text(shift.start.formatDateTime(),style: TextStyle(color: Colors.black, fontSize: 16),),
-                                        ),
-                                        Text("a"),
-                                        Container(
-                                          padding: const EdgeInsets.only(top: 15, bottom: 15),
-                                          child: Text(shift.end.formatDateTime(),style: TextStyle(color: Colors.black, fontSize: 16),),
-                                        ),
-                                        Divider(height: 3,)
-                                      ]
-                                  ));
+
+                                      children: [
+                                Row(
+                                  children: [
+                                    Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            shift.start
+                                                .formatDateTime()
+                                                .toCapitalized(),
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16),
+                                          ),
+                                          Container(
+                                              margin: EdgeInsets.only(left:20),
+                                              child:Text("↓")),
+                                          Text(
+                                            shift.end
+                                                .formatDateTime()
+                                                .toCapitalized(),
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16),
+                                          ),
+                                        ]),
+                                    Expanded(
+                                        child: Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Text(
+                                              "15h",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20),
+                                            )))
+                                  ],
+                                ),
+                                Divider(
+                                  height: 40,
+                                  thickness: 1,
+                                )
+                              ]));
                             }
                         ),
                         Expanded(
