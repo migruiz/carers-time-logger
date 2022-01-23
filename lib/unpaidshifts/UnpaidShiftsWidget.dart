@@ -70,7 +70,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                         child: Align(
                                             alignment: Alignment.bottomRight,
                                             child: Text(
-                                              "15h",
+                                              "${shift.hours}h",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 20),
@@ -106,7 +106,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                         color: Colors.green,
                                         padding: EdgeInsets.all(4),
                                         child: Text(
-                                            "Total Horas Trabajadas: 14",
+                                            "Total Horas Trabajadas: ${state.totalHours}",
                                             style: TextStyle(fontSize: 20)),
                                       ),
                                     )
