@@ -1,4 +1,5 @@
 import 'package:carerstimelogger/Extensions.dart';
+import 'package:carerstimelogger/registerunpaidshift/RegisterUnpaidShiftWidget.dart';
 import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsBloc.dart';
 import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsState.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,17 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                     Container(
                                       margin: EdgeInsets.all(8),
                                       child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () async{
+
+                                          await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  fullscreenDialog: true,
+                                                  builder: (BuildContext context) =>
+                                                      RegisterUnpaidShiftWidget()));
+
+
+                                        },
                                         child: Text('REGISTRAR TURNO',
                                             style: TextStyle(fontSize: 18)),
                                       ),
