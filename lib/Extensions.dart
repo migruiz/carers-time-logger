@@ -4,7 +4,7 @@ extension DateParsing on DateTime {
 
   String formatDate() => this.format(syntax: "dd-MM-yyyy");
 
-  String formatDateTime() => this.format(syntax: "dd-MM-yyyy HH:mm");
+  String formatDateTime() => this.format(syntax: "EEEE dd  MMMM  HH:mm");
 
   String formatDateTimeForPost() => this.format(syntax: "yyyy-MM-ddTHH:mm:ss");
 

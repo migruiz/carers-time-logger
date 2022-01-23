@@ -1,3 +1,4 @@
+import 'package:carerstimelogger/Extensions.dart';
 import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsBloc.dart';
 import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsState.dart';
 import 'package:flutter/material.dart';
@@ -38,12 +39,12 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                       children:[
                                         Container(
                                           padding: const EdgeInsets.only(top: 15, bottom: 15),
-                                          child: Text(shift.start.toString(),style: TextStyle(color: Colors.black, fontSize: 16),),
+                                          child: Text(shift.start.formatDateTime(),style: TextStyle(color: Colors.black, fontSize: 16),),
                                         ),
                                         Text("a"),
                                         Container(
                                           padding: const EdgeInsets.only(top: 15, bottom: 15),
-                                          child: Text(shift.end.toString(),style: TextStyle(color: Colors.black, fontSize: 16),),
+                                          child: Text(shift.end.formatDateTime(),style: TextStyle(color: Colors.black, fontSize: 16),),
                                         ),
                                         Divider(height: 3,)
                                       ]
