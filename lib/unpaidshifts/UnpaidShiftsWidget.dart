@@ -14,6 +14,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
         child: BlocBuilder<UnpaidShiftsBloc, UnpaidShiftsState>(
             builder: (context, state) {
               if (state is LoadedState) {
+                final shifts = state.shifts;
                 return Scaffold(
                   appBar: AppBar(
                     title: Text("Turnos por pagar de {Carer}"),
@@ -22,8 +23,32 @@ class UnpaidShiftsWidget extends StatelessWidget{
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          'Timesheet goes here',
+                        ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: shifts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final shift = shifts[index];
+                              return InkWell(
+                                  onTap: () async{
+                                  },
+                                  child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children:[
+                                        Container(
+                                          padding: const EdgeInsets.only(top: 15, bottom: 15),
+                                          child: Text(shift.start.toString(),style: TextStyle(color: Colors.black, fontSize: 16),),
+                                        ),
+                                        Text("a"),
+                                        Container(
+                                          padding: const EdgeInsets.only(top: 15, bottom: 15),
+                                          child: Text(shift.end.toString(),style: TextStyle(color: Colors.black, fontSize: 16),),
+                                        ),
+                                        Divider(height: 3,)
+                                      ]
+                                  ));
+                            }
                         ),
                         Expanded(
                             child: Align(
