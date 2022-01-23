@@ -26,7 +26,8 @@ class UnpaidShiftsWidget extends StatelessWidget{
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        ListView.builder(
+                    Expanded(
+                    child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             padding: EdgeInsets.all(8),
                             shrinkWrap: true,
@@ -85,9 +86,8 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                 )
                               ]));
                             }
-                        ),
-                        Expanded(
-                            child: Align(
+                        )),
+                        Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -115,15 +115,15 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                       width: double.infinity,
                                       // height: double.infinity,
                                       child: Container(
-                                        color: Colors.green,
+                                        color: Colors.black87,
                                         padding: EdgeInsets.all(4),
                                         child: Text(
-                                            "Total Horas Trabajadas: ${state.totalHours}",
-                                            style: TextStyle(fontSize: 20)),
+                                            "TOTAL HORAS TRABAJADAS: ${state.totalHours}",
+                                            style: TextStyle(fontSize: 20, color: Colors.white)),
                                       ),
                                     )
                                   ],
-                                )))
+                                ))
                       ],
                     ),
                   ),
