@@ -19,24 +19,81 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                 appBar: AppBar(
                   title: Text("Registro de Turno"),
                 ),
-                body: Column(
-                  children: [
-                    Align(
-                        alignment: Alignment.center,
-                        child: getStartWidget(state, context, bloc)
-                    ),
-                    if (state.displayEndDateTimeLine)
-                    Align(
-                        alignment: Alignment.center,
-                        child: Text("↓", style: TextStyle(fontSize: 40))
-                    ),
-                    if (state.displayEndDateTimeLine)
+                body: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Container(height: 20,),
                       Align(
                           alignment: Alignment.center,
-                          child: getEndWidget(state, context, bloc)
-                      )
+                          child: getStartWidget(state, context, bloc)
+                      ),
+                      if (state.displayEndDateTimeLine)
+                        Align(
+                            alignment: Alignment.center,
+                            child: Text("↓", style: TextStyle(fontSize: 40))
+                        ),
+                      if (state.displayEndDateTimeLine)
+                        Align(
+                            alignment: Alignment.center,
+                            child: getEndWidget(state, context, bloc)
+                        ),
+                      if (state.datesSet)
+                        Align(
+                            alignment: Alignment.center,
+                            child: Text("=", style: TextStyle(fontSize: 32))
+                        ),
+                      if (state.datesSet)
+                        Container(
+                            margin: EdgeInsets.all(4),
+                            child: Text(
+                              "${state.hours} Horas",
+                              style: TextStyle(fontSize: 40,color: Colors.green),
+                            )
+                        ),
+                      Expanded(
+                          child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Row(
+                                children: [
+                                  ElevatedButton(
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
+                                    onPressed: () async{
 
-                  ],
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              fullscreenDialog: true,
+                                              builder: (BuildContext context) =>
+                                                  RegisterUnpaidShiftWidget()));
+
+
+                                    },
+                                    child: Text('GUARDAR',
+                                        style: TextStyle(fontSize: 18)),
+                                  ),
+                                  Spacer(),
+                                  ElevatedButton(
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+                                    onPressed: () async{
+
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              fullscreenDialog: true,
+                                              builder: (BuildContext context) =>
+                                                  RegisterUnpaidShiftWidget()));
+
+
+                                    },
+                                    child: Text('BORRAR',
+                                        style: TextStyle(fontSize: 18)),
+                                  ),
+
+                                ],
+                              )))
+                    ],
+                  ),
                 ),
               );
             }
@@ -46,7 +103,9 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
   }
 
   Widget getEndWidget(RegisterUnpaidShiftState state, BuildContext context, RegisterUnpaidShiftBloc bloc)  {
-    return ElevatedButton(
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
                       onPressed: () async{
                         final dateResult = await showDatePicker(
                           context: context,
@@ -76,11 +135,13 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
         .formatDateTime()
         .toCapitalized(): 'FECHA Y HORA DE SALIDA',
                           style: TextStyle(fontSize: 20)),
-                    );
+                    ));
   }
 
   Widget getStartWidget(RegisterUnpaidShiftState state, BuildContext context, RegisterUnpaidShiftBloc bloc)  {
-    return ElevatedButton(
+    return SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
       onPressed: () async{
         final dateResult = await showDatePicker(
           initialEntryMode: DatePickerEntryMode.calendar,
@@ -111,7 +172,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
           .formatDateTime()
           .toCapitalized(): 'FECHA Y HORA DE ENTRADA',
           style: TextStyle(fontSize: 20)),
-    );
+    ));
   }
 
 }
