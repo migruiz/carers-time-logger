@@ -142,6 +142,33 @@ class UnpaidShiftsWidget extends StatelessWidget{
                   ),
                 );
               }
+              if (state is LoadingState){
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text("Turnos por pagar"),
+                  ),
+                  body: Align(
+                    child: Container(
+                      width: 135,
+                      height: 100,
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text("Loading..."),
+                          Container(height: 20),
+                          Container( height: 4,
+                            child: LinearProgressIndicator(
+                              backgroundColor: Colors.grey[300],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                  ),
+                );
+              }
               else{
                 return Container();
               }
