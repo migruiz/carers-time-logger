@@ -12,6 +12,10 @@ extension DateParsing on DateTime {
   String format({required String syntax}) {
     return DateFormat(syntax).format(this);
   }
+  
+  DateTime fromLocalToColombianTime() => this.add(Duration(milliseconds: DateTime.now().timeZoneOffset.inMilliseconds * -1)).add(Duration(hours: - 5));
+  DateTime fromColombianToLocalTime() => this.add(DateTime.now().timeZoneOffset).add(Duration(hours: 5));
+  
   DateTime combine({required TimeOfDay timeValue}){
     final dateTime = DateTime(this.year, this.month, this.day, timeValue.hour, timeValue.minute);
     return dateTime;

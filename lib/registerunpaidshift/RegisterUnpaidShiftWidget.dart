@@ -120,7 +120,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                           cancelText: "CANCELAR",
                           confirmText: 'SIGUIENTE',
                           firstDate: DateTime(2020),
-                          initialDate: state.end??DateTime.now(),
+                          initialDate: (state.end??state.start!.add(Duration(hours: 12))).fromLocalToColombianTime(),
                           lastDate: DateTime(2040),
                         );
                         if (dateResult!=null) {
@@ -129,7 +129,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                             helpText: 'HORA DE SALIDA',
                             cancelText: 'CANCELAR',
                             confirmText: 'CONFIRMAR',
-                            initialTime: (state.end ?? DateTime.now())
+                            initialTime: (state.end??state.start!.add(Duration(hours: 12))).fromLocalToColombianTime()
                                 .timeOfDay(),
                           );
                           if (timeResult!=null){
@@ -138,7 +138,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                           }
                         }
                       },
-                      child: Text(state.endDateTimeSet?state.end!
+                      child: Text(state.endDateTimeSet?state.end!.fromLocalToColombianTime()
         .formatDateTime()
         .toCapitalized(): 'FECHA Y HORA DE SALIDA',
                           style: TextStyle(fontSize: 20)),
@@ -158,7 +158,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
           cancelText: "CANCELAR",
           confirmText: 'SIGUIENTE',
           firstDate: DateTime(2020),
-          initialDate: state.start??DateTime.now(),
+          initialDate: (state.start??DateTime.now()).fromLocalToColombianTime(),
           lastDate: DateTime(2040),
         );
         if (dateResult!=null) {
@@ -167,8 +167,8 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
             helpText: 'HORA DE ENTRADA',
             cancelText: 'CANCELAR',
             confirmText: 'CONFIRMAR',
-            initialTime: (state.start ?? DateTime.now())
-                .timeOfDay(),
+            initialTime: (state.start ?? DateTime.now()).fromLocalToColombianTime()
+                .timeOfDay()
           );
           if (timeResult!=null){
             final startDateTime = dateResult.combine(timeValue: timeResult);
@@ -176,7 +176,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
           }
         }
       },
-      child: Text(state.startDateTimeSet?state.start!
+      child: Text(state.startDateTimeSet?state.start!.fromLocalToColombianTime()
           .formatDateTime()
           .toCapitalized(): 'FECHA Y HORA DE ENTRADA',
           style: TextStyle(fontSize: 20)),

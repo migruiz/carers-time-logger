@@ -1,3 +1,4 @@
+import 'package:carerstimelogger/Extensions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'ShiftDataModel.dart';
@@ -19,7 +20,8 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
         .map((doc) => doc.data() as Map<String, dynamic>)
         .map((m) => ShiftDataModel(
             start: (m['start'] as Timestamp).toDate(),
-            end: (m['end'] as Timestamp).toDate()))
+            end: (m['end'] as Timestamp).toDate()
+        ))
         .toList();
     shifts.sort((a,b) => a.start.compareTo(b.start));
     emit(LoadedState(shifts: shifts));

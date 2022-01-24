@@ -62,6 +62,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                         children: [
                                           Text(
                                             shift.start
+                                                .fromLocalToColombianTime()
                                                 .formatDateTime()
                                                 .toCapitalized(),
                                             style: TextStyle(
@@ -73,6 +74,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                               child:Text("↓")),
                                           Text(
                                             shift.end
+                                                .fromLocalToColombianTime()
                                                 .formatDateTime()
                                                 .toCapitalized(),
                                             style: TextStyle(
