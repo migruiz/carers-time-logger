@@ -86,9 +86,11 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                                       style: ButtonStyle(
                                           backgroundColor: MaterialStateProperty
                                               .all<Color>(Colors.red)),
-                                      onPressed: state.saving?null: ()  {
+                                      onPressed: state.saving?null: ()  async{
+                                        if (await context.confirmOperationWithDialog("Confirmar Borrar Turno?")) {
+                                          bloc.add(DeleteEvent());
+                                        }
 
-                                            bloc.add(DeleteEvent());
                                       },
                                       child: Text(state.saving?'BORRANDO...':'BORRAR',
                                           style: TextStyle(fontSize: 18)),
