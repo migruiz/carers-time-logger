@@ -1,5 +1,5 @@
 import '../CarerData.dart';
-
+import 'package:carerstimelogger/Extensions.dart';
 abstract class RegisterUnpaidShiftState {}
 class LoadingState extends RegisterUnpaidShiftState{}
 class SavedState extends RegisterUnpaidShiftState{}
@@ -10,6 +10,7 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
   final bool saving;
   final CarerData carer;
 
+  DateTime get suggestedStart => start??(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, carer.usualStartHour, 0).fromColombianToLocalTime());
   DateTime get suggestedEnd => end??(start!.add(Duration(hours: 12)));
   double get hours => double.parse(((end!.millisecondsSinceEpoch - start!.millisecondsSinceEpoch) / (1000 * 60 * 60)).toStringAsFixed(1));
 
