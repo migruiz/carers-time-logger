@@ -8,12 +8,13 @@ import 'RegisterUnpaidShiftState.dart';
 
 class RegisterUnpaidShiftWidget extends StatelessWidget{
   final String carerId;
+  final String? shiftId;
 
-  const RegisterUnpaidShiftWidget({Key? key,required this.carerId}) : super(key: key);
+  const RegisterUnpaidShiftWidget({Key? key,required this.carerId, required this.shiftId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return  BlocProvider(
-        create: (_) => RegisterUnpaidShiftBloc()..add(NewShiftEvent(carerId: carerId)),
+        create: (_) => RegisterUnpaidShiftBloc()..add(this.shiftId==null?NewShiftEvent(carerId: carerId):EditShiftEvent(carerId: carerId, shiftId: shiftId!)),
         child: BlocBuilder<RegisterUnpaidShiftBloc, RegisterUnpaidShiftState>(
             builder: (context, state) {
               if (state is RegisterUnpaidShiftLoadedState) {

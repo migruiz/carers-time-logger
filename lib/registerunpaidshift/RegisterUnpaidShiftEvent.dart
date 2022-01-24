@@ -1,8 +1,12 @@
 abstract class RegisterUnpaidShiftEvent {}
 class NewShiftEvent extends RegisterUnpaidShiftEvent{
   final String carerId;
-
   NewShiftEvent({required this.carerId});
+}
+class EditShiftEvent extends RegisterUnpaidShiftEvent{
+  final String shiftId;
+  final String carerId;
+  EditShiftEvent({required this.carerId, required this.shiftId});
 }
 class SaveEvent extends RegisterUnpaidShiftEvent{}
 class StartDateTimeEvent extends RegisterUnpaidShiftEvent{

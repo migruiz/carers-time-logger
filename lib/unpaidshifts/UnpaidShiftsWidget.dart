@@ -47,6 +47,14 @@ class UnpaidShiftsWidget extends StatelessWidget{
                               final shift = shifts[index];
                               return InkWell(
                                   onTap: () async{
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            fullscreenDialog: true,
+                                            builder: (BuildContext context) =>
+                                                RegisterUnpaidShiftWidget(carerId: this.carerId,shiftId: shift.id,)));
+
+                                    bloc.add(LoadDataEvent(carerId: this.carerId));
                                   },
                                   child: Column(
 
@@ -115,7 +123,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                               MaterialPageRoute(
                                                   fullscreenDialog: true,
                                                   builder: (BuildContext context) =>
-                                                      RegisterUnpaidShiftWidget(carerId: this.carerId,)));
+                                                      RegisterUnpaidShiftWidget(carerId: this.carerId,shiftId: null,)));
 
                                             bloc.add(LoadDataEvent(carerId: this.carerId));
                                         },

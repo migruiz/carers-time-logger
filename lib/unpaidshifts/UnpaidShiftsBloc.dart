@@ -21,10 +21,10 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
     CarerData carerInfo = await carersRepo.getCarerInfo(event.carerId);
     final snapshot = await carerUnpaidTime.get();
     final shifts = snapshot.docs
-        .map((doc) => doc.data())
-        .map((m) => ShiftDataModel(
-            start: (m['start'] as Timestamp).toDate(),
-            end: (m['end'] as Timestamp).toDate()
+        .map((doc) => ShiftDataModel(
+            id: doc.id,
+            start: (doc.data()['start'] as Timestamp).toDate(),
+            end: (doc.data()['end'] as Timestamp).toDate()
         ))
         .toList();
     shifts.sort((a,b) => a.start.compareTo(b.start));

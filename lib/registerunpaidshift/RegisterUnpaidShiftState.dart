@@ -8,6 +8,8 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
   final DateTime? start;
   final DateTime? end;
   final bool saving;
+  final String? shiftId;
+  bool get isNew => shiftId==null;
   final CarerData carer;
 
   DateTime get suggestedStart => start??(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, carer.usualStartHour, 0).fromColombianToLocalTime());
@@ -20,5 +22,5 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
   bool get datesSet => startDateTimeSet && endDateTimeSet;
   bool get isValid => datesSet && end!.millisecondsSinceEpoch-start!.millisecondsSinceEpoch>0;
 
-  RegisterUnpaidShiftLoadedState({required this.carer, required this.saving, required this.carerId, required this.start,required this.end});
+  RegisterUnpaidShiftLoadedState({required this.shiftId, required this.carer, required this.saving, required this.carerId, required this.start,required this.end});
 }
