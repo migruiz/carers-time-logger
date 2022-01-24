@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'RoutingData.dart';
 extension DateParsing on DateTime {
   String formatTime() => this.format(syntax: "HH:mm");
 
@@ -19,6 +21,16 @@ extension DateParsing on DateTime {
   DateTime combine({required TimeOfDay timeValue}){
     final dateTime = DateTime(this.year, this.month, this.day, timeValue.hour, timeValue.minute);
     return dateTime;
+  }
+}
+extension StringExtension on String {
+  RoutingData get getRoutingData {
+    var uriData = Uri.parse(this);
+    print('queryParameters: ${uriData.queryParameters} path: ${uriData.path}');
+    return RoutingData(
+      queryParameters: uriData.queryParameters,
+      route: uriData.path,
+    );
   }
 }
 extension StringCasingExtension on String {
