@@ -1,3 +1,5 @@
+import 'package:carerstimelogger/CarerData.dart';
+import 'package:carerstimelogger/CarersRepository.dart';
 import 'package:carerstimelogger/Extensions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -14,17 +16,20 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
   void _onLoadShifts(
       LoadDataEvent event, Emitter<UnpaidShiftsState> emit) async {
     emit(LoadingState());
-    CollectionReference carerUnpaidTime =
-        FirebaseFirestore.instance.collection('carers/${event.carerId}/unpaidtime');
+    final carerUnpaidTime =  FirebaseFirestore.instance.collection('carers/${event.carerId}/unpaidtime');
+    final carersRepo = CarersRepository();
+    CarerData carerInfo = await carersRepo.getCarerInfo(event.carerId);
     final snapshot = await carerUnpaidTime.get();
     final shifts = snapshot.docs
-        .map((doc) => doc.data() as Map<String, dynamic>)
+        .map((doc) => doc.data())
         .map((m) => ShiftDataModel(
             start: (m['start'] as Timestamp).toDate(),
             end: (m['end'] as Timestamp).toDate()
         ))
         .toList();
     shifts.sort((a,b) => a.start.compareTo(b.start));
-    emit(LoadedState(shifts: shifts));
+    emit(LoadedState(shifts: shifts, carer: carerInfo));
   }
+
+
 }

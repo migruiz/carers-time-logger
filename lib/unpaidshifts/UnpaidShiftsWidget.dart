@@ -31,7 +31,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                 final shifts = state.shifts;
                 return Scaffold(
                   appBar: AppBar(
-                    title: Text("Turnos por pagar de {Carer}"),
+                    title: Text("Turnos por pagar de ${state.carer.nickname}"),
                   ),
                   body: Center(
                     child: Column(

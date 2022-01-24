@@ -20,7 +20,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                 final bloc = BlocProvider.of<RegisterUnpaidShiftBloc>(context);
                 return Scaffold(
                   appBar: AppBar(
-                    title: Text("Registro de Turno"),
+                    title: Text("Registro de Turno ${state.carer.nickname}"),
                     leading: IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () {
@@ -111,6 +111,33 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                     body:Center(
                       child: Container(),
                     )
+                );
+              }
+              else if (state is LoadingState){
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text("Registro de Turno"),
+                  ),
+                  body: Align(
+                    child: Container(
+                      width: 135,
+                      height: 100,
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text("Loading..."),
+                          Container(height: 20),
+                          Container( height: 4,
+                            child: LinearProgressIndicator(
+                              backgroundColor: Colors.grey[300],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                  ),
                 );
               }
               else{
