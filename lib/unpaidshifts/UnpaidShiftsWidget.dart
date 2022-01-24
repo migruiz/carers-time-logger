@@ -8,11 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'UnpaidShiftsEvent.dart';
 
 class UnpaidShiftsWidget extends StatelessWidget{
+  final String carerId;
+
+  const UnpaidShiftsWidget({Key? key, required this.carerId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: BlocProvider(
-        create: (_) => UnpaidShiftsBloc()..add(LoadDataEvent()),
+        create: (_) => UnpaidShiftsBloc()..add(LoadDataEvent(carerId: carerId)),
         child: BlocBuilder<UnpaidShiftsBloc, UnpaidShiftsState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<UnpaidShiftsBloc>(context);
@@ -102,9 +105,9 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                               MaterialPageRoute(
                                                   fullscreenDialog: true,
                                                   builder: (BuildContext context) =>
-                                                      RegisterUnpaidShiftWidget()));
+                                                      RegisterUnpaidShiftWidget(carerId: this.carerId,)));
 
-                                            bloc.add(LoadDataEvent());
+                                            bloc.add(LoadDataEvent(carerId: this.carerId));
                                         },
                                         child: Text('REGISTRAR TURNO',
                                             style: TextStyle(fontSize: 18)),

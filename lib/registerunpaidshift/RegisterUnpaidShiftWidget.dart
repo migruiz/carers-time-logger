@@ -7,97 +7,108 @@ import 'RegisterUnpaidShiftEvent.dart';
 import 'RegisterUnpaidShiftState.dart';
 
 class RegisterUnpaidShiftWidget extends StatelessWidget{
+  final String carerId;
+
+  const RegisterUnpaidShiftWidget({Key? key,required this.carerId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return  BlocProvider(
-        create: (_) => RegisterUnpaidShiftBloc()..add(NewShiftEvent()),
+        create: (_) => RegisterUnpaidShiftBloc()..add(NewShiftEvent(carerId: carerId)),
         child: BlocBuilder<RegisterUnpaidShiftBloc, RegisterUnpaidShiftState>(
             builder: (context, state) {
-              final bloc = BlocProvider.of<RegisterUnpaidShiftBloc>(context);
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text("Registro de Turno"),
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      Navigator.pop(context,null);
-                    },
+              if (state is RegisterUnpaidShiftLoadedState) {
+                final bloc = BlocProvider.of<RegisterUnpaidShiftBloc>(context);
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text("Registro de Turno"),
+                    leading: IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () {
+                        Navigator.pop(context, null);
+                      },
+                    ),
                   ),
-                ),
-                body: Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Container(height: 20,),
-                      Align(
-                          alignment: Alignment.center,
-                          child: getStartWidget(state, context, bloc)
-                      ),
-                      if (state.displayEndDateTimeLine)
+                  body: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Container(height: 20,),
                         Align(
                             alignment: Alignment.center,
-                            child: Text("↓", style: TextStyle(fontSize: 40))
+                            child: getStartWidget(state, context, bloc)
                         ),
-                      if (state.displayEndDateTimeLine)
-                        Align(
-                            alignment: Alignment.center,
-                            child: getEndWidget(state, context, bloc)
-                        ),
-                      if (state.datesSet)
-                        Align(
-                            alignment: Alignment.center,
-                            child: Text("=", style: TextStyle(fontSize: 32))
-                        ),
-                      if (state.datesSet)
-                        Container(
-                            margin: EdgeInsets.all(4),
-                            child: Text(
-                              "${state.hours} Horas",
-                              style: TextStyle(fontSize: 40,color: Colors.green),
-                            )
-                        ),
-                      Expanded(
-                          child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Row(
-                                children: [
-                                  ElevatedButton(
+                        if (state.displayEndDateTimeLine)
+                          Align(
+                              alignment: Alignment.center,
+                              child: Text("↓", style: TextStyle(fontSize: 40))
+                          ),
+                        if (state.displayEndDateTimeLine)
+                          Align(
+                              alignment: Alignment.center,
+                              child: getEndWidget(state, context, bloc)
+                          ),
+                        if (state.datesSet)
+                          Align(
+                              alignment: Alignment.center,
+                              child: Text("=", style: TextStyle(fontSize: 32))
+                          ),
+                        if (state.datesSet)
+                          Container(
+                              margin: EdgeInsets.all(4),
+                              child: Text(
+                                "${state.hours} Horas",
+                                style: TextStyle(fontSize: 40,
+                                    color: Colors.green),
+                              )
+                          ),
+                        Expanded(
+                            child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Row(
+                                  children: [
+                                    ElevatedButton(
 
-                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
-                                    onPressed:!state.isValid? null :  () async{
+                                      style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty
+                                              .all<Color>(Colors.green)),
+                                      onPressed: !state.isValid
+                                          ? null
+                                          : () async {
+                                        await bloc.save();
+                                        Navigator.pop(context, null);
+                                      },
+                                      child: Text('GUARDAR',
+                                          style: TextStyle(fontSize: 18)),
+                                    ),
+                                    Spacer(),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty
+                                              .all<Color>(Colors.red)),
+                                      onPressed: true ? null : () async {
 
 
-                                      await bloc.save();
-                                      Navigator.pop(context,null);
+                                      },
+                                      child: Text('BORRAR',
+                                          style: TextStyle(fontSize: 18)),
+                                    ),
 
-                                    },
-                                    child: Text('GUARDAR',
-                                        style: TextStyle(fontSize: 18)),
-                                  ),
-                                  Spacer(),
-                                  ElevatedButton(
-                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
-                                    onPressed: true?null: () async{
-
-
-
-                                    },
-                                    child: Text('BORRAR',
-                                        style: TextStyle(fontSize: 18)),
-                                  ),
-
-                                ],
-                              )))
-                    ],
+                                  ],
+                                )))
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
+              else{
+                return Container();
+              }
             }
         ),
       );
   }
 
-  Widget getEndWidget(RegisterUnpaidShiftState state, BuildContext context, RegisterUnpaidShiftBloc bloc)  {
+  Widget getEndWidget(RegisterUnpaidShiftLoadedState state, BuildContext context, RegisterUnpaidShiftBloc bloc)  {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -133,7 +144,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                     ));
   }
 
-  Widget getStartWidget(RegisterUnpaidShiftState state, BuildContext context, RegisterUnpaidShiftBloc bloc)  {
+  Widget getStartWidget(RegisterUnpaidShiftLoadedState state, BuildContext context, RegisterUnpaidShiftBloc bloc)  {
     return SizedBox(
         width: double.infinity,
         child: ElevatedButton(

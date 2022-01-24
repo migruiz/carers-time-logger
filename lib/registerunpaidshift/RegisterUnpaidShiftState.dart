@@ -1,4 +1,7 @@
-class RegisterUnpaidShiftState {
+abstract class RegisterUnpaidShiftState {}
+class InitState extends RegisterUnpaidShiftState{}
+class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
+  final String carerId;
   final DateTime? start;
   final DateTime? end;
 
@@ -10,5 +13,5 @@ class RegisterUnpaidShiftState {
   bool get datesSet => startDateTimeSet && endDateTimeSet;
   bool get isValid => datesSet && end!.millisecondsSinceEpoch-start!.millisecondsSinceEpoch>0;
 
-  RegisterUnpaidShiftState({required this.start,required this.end});
+  RegisterUnpaidShiftLoadedState({required this.carerId, required this.start,required this.end});
 }

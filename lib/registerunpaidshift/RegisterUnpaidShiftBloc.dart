@@ -5,18 +5,19 @@ import 'RegisterUnpaidShiftEvent.dart';
 import 'RegisterUnpaidShiftState.dart';
 
 class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnpaidShiftState> {
-  RegisterUnpaidShiftBloc() : super(RegisterUnpaidShiftState(start: null, end: null)) {
-    on<NewShiftEvent>((event,emit)=> emit(RegisterUnpaidShiftState(start: null, end: null)));
-    on<StartDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftState(start: event.value, end: state.end)));
-    on<EndDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftState(start: state.start, end: event.value)));
+  RegisterUnpaidShiftBloc() : super(InitState()) {
+    on<NewShiftEvent>((event,emit)=> emit(RegisterUnpaidShiftLoadedState(carerId: event.carerId, start: null, end: null)));
+    on<StartDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftLoadedState(carerId: (state as RegisterUnpaidShiftLoadedState).carerId, start: event.value, end: (state as RegisterUnpaidShiftLoadedState).end)));
+    on<EndDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftLoadedState(carerId: (state as RegisterUnpaidShiftLoadedState).carerId, start: (state as RegisterUnpaidShiftLoadedState).start, end: event.value)));
   }
 
   save() async{
+    final currentState = state as RegisterUnpaidShiftLoadedState;
     CollectionReference carerUnpaidTime =
-    FirebaseFirestore.instance.collection('carers/alejandra/unpaidtime');
+    FirebaseFirestore.instance.collection('carers/${currentState.carerId}/unpaidtime');
     final result = await carerUnpaidTime.add({
-      'start':Timestamp.fromDate(state.start!),
-      'end':Timestamp.fromDate(state.end!)
+      'start':Timestamp.fromDate(currentState.start!),
+      'end':Timestamp.fromDate(currentState.end!)
     });
 
   }
