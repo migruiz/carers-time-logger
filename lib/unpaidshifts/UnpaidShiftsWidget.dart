@@ -139,7 +139,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                         color: Colors.black87,
                                         padding: EdgeInsets.all(4),
                                         child: Text(
-                                            "TOTAL HORAS TRABAJADAS: ${state.totalHours}",
+                                            "TOTAL HORAS TRABAJADAS: ${state.totalHours.toStringAsFixed(1)}",
                                             style: TextStyle(fontSize: 20, color: Colors.white)),
                                       ),
                                     )
