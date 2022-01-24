@@ -120,7 +120,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                           cancelText: "CANCELAR",
                           confirmText: 'SIGUIENTE',
                           firstDate: DateTime(2020),
-                          initialDate: (state.end??state.start!.add(Duration(hours: 12))).fromLocalToColombianTime(),
+                          initialDate: state.suggestedEnd.fromLocalToColombianTime(),
                           lastDate: DateTime(2040),
                         );
                         if (dateResult!=null) {
@@ -129,7 +129,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                             helpText: 'HORA DE SALIDA',
                             cancelText: 'CANCELAR',
                             confirmText: 'CONFIRMAR',
-                            initialTime: (state.end??state.start!.add(Duration(hours: 12))).fromLocalToColombianTime()
+                            initialTime: state.suggestedEnd.fromLocalToColombianTime()
                                 .timeOfDay(),
                           );
                           if (timeResult!=null){

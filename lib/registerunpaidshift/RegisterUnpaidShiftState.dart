@@ -5,6 +5,7 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
   final DateTime? start;
   final DateTime? end;
 
+  DateTime get suggestedEnd => end??(start!.add(Duration(hours: 12)));
   double get hours => double.parse(((end!.millisecondsSinceEpoch - start!.millisecondsSinceEpoch) / (1000 * 60 * 60)).toStringAsFixed(1));
 
   bool get startDateTimeSet => start!=null;
