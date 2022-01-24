@@ -8,7 +8,6 @@ import 'unpaidshifts/UnpaidShiftsWidget.dart';
 
 void main() async {
   Intl.defaultLocale = 'es_CO';
-  initializeDateFormatting('es_CO', null);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

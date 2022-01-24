@@ -4,7 +4,7 @@ import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsBloc.dart';
 import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'UnpaidShiftsEvent.dart';
 
 class UnpaidShiftsWidget extends StatelessWidget{
@@ -14,6 +14,14 @@ class UnpaidShiftsWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('es','CO'),
+        ],
       home: BlocProvider(
         create: (_) => UnpaidShiftsBloc()..add(LoadDataEvent(carerId: carerId)),
         child: BlocBuilder<UnpaidShiftsBloc, UnpaidShiftsState>(

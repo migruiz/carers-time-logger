@@ -114,6 +114,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
       child: ElevatedButton(
                       onPressed: () async{
                         final dateResult = await showDatePicker(
+                          locale: Locale("es","CO"),
                           context: context,
                           helpText: 'FECHA DE SALIDA',
                           cancelText: "CANCELAR",
@@ -150,6 +151,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
         child: ElevatedButton(
       onPressed: () async{
         final dateResult = await showDatePicker(
+          locale: Locale("es","CO"),
           initialEntryMode: DatePickerEntryMode.calendar,
           context: context,
           helpText: 'FECHA DE ENTRADA',
