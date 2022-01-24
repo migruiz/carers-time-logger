@@ -74,12 +74,15 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                                 .formatDateTime()
                                                 .toCapitalized(),
                                             style: TextStyle(
+                                              fontWeight: FontWeight.bold,
                                                 color: Colors.black,
                                                 fontSize: 16),
                                           ),
                                           Container(
                                               margin: EdgeInsets.only(left:20),
-                                              child:Text("↓")),
+                                              child:Text("↓",style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20))),
                                           Text(
                                             shift.end
                                                 .fromLocalToColombianTime()
