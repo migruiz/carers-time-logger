@@ -11,7 +11,8 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
     on<EditShiftEvent>(_onEditShift);
     on<StartDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftLoadedState(shiftId: (state as RegisterUnpaidShiftLoadedState).shiftId,carer: (state as RegisterUnpaidShiftLoadedState).carer, carerId: (state as RegisterUnpaidShiftLoadedState).carerId,saving: false, start: event.value.fromColombianToLocalTime(), end: (state as RegisterUnpaidShiftLoadedState).end)));
     on<EndDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftLoadedState(shiftId: (state as RegisterUnpaidShiftLoadedState).shiftId, carer: (state as RegisterUnpaidShiftLoadedState).carer, carerId: (state as RegisterUnpaidShiftLoadedState).carerId,saving: false, start: (state as RegisterUnpaidShiftLoadedState).start, end: event.value.fromColombianToLocalTime())));
-    on<SaveEvent>(_save);
+    on<SaveEvent>(_onSaveEvent);
+    on<DeleteEvent>(_onDeleteEvent);
   }
 
   void _onEditShift(EditShiftEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
@@ -35,7 +36,16 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
     emit(RegisterUnpaidShiftLoadedState(carerId: event.carerId,shiftId:null, carer: carer, saving: false,  start: null, end: null));
   }
 
-  void _save(SaveEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
+  void _onDeleteEvent(DeleteEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
+    final currentState = state as RegisterUnpaidShiftLoadedState;
+    CollectionReference carerUnpaidTime =
+    FirebaseFirestore.instance.collection('carers/${currentState.carerId}/unpaidtime');
+    emit(RegisterUnpaidShiftLoadedState(carer: currentState.carer,shiftId: currentState.shiftId,  carerId: currentState.carerId, saving: true, start: currentState.start,end: currentState.end));
+    await carerUnpaidTime.doc(currentState.shiftId).delete();
+    emit(SavedState());
+  }
+
+  void _onSaveEvent(SaveEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
     final currentState = state as RegisterUnpaidShiftLoadedState;
     CollectionReference carerUnpaidTime =
     FirebaseFirestore.instance.collection('carers/${currentState.carerId}/unpaidtime');

@@ -9,6 +9,7 @@ class EditShiftEvent extends RegisterUnpaidShiftEvent{
   EditShiftEvent({required this.carerId, required this.shiftId});
 }
 class SaveEvent extends RegisterUnpaidShiftEvent{}
+class DeleteEvent extends RegisterUnpaidShiftEvent{}
 class StartDateTimeEvent extends RegisterUnpaidShiftEvent{
   final DateTime value;
   StartDateTimeEvent(this.value);

@@ -80,17 +80,17 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                                       child: Text(state.saving?'GUARDANDO...':'GUARDAR',
                                           style: TextStyle(fontSize: 18)),
                                     ),
-                                    if (false) Spacer(),
-                                    if (false)
+                                    if (state.isValid && !state.isNew) Spacer(),
+                                    if (state.isValid && !state.isNew)
                                       ElevatedButton(
                                       style: ButtonStyle(
                                           backgroundColor: MaterialStateProperty
                                               .all<Color>(Colors.red)),
-                                      onPressed: true ? null : () async {
+                                      onPressed: state.saving?null: ()  {
 
-
+                                            bloc.add(DeleteEvent());
                                       },
-                                      child: Text('BORRAR',
+                                      child: Text(state.saving?'BORRANDO...':'BORRAR',
                                           style: TextStyle(fontSize: 18)),
                                     ),
 
