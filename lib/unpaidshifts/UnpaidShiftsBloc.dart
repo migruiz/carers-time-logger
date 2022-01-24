@@ -13,6 +13,7 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
 
   void _onLoadShifts(
       LoadDataEvent event, Emitter<UnpaidShiftsState> emit) async {
+    emit(LoadingState());
     CollectionReference carerUnpaidTime =
         FirebaseFirestore.instance.collection('carers/${event.carerId}/unpaidtime');
     final snapshot = await carerUnpaidTime.get();

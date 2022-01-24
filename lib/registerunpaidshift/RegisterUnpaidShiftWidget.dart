@@ -73,11 +73,10 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                                       style: ButtonStyle(
                                           backgroundColor: MaterialStateProperty
                                               .all<Color>(Colors.green)),
-                                      onPressed: () async {
-                                        await bloc.save();
-                                        Navigator.pop(context, null);
+                                      onPressed:state.saving?null: ()  {
+                                        bloc.add(SaveEvent());
                                       },
-                                      child: Text('GUARDAR',
+                                      child: Text(state.saving?'GUARDANDO...':'GUARDAR',
                                           style: TextStyle(fontSize: 18)),
                                     ),
                                     if (false) Spacer(),
@@ -99,6 +98,19 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                       ],
                     ),
                   ),
+                );
+              }
+              else if (state is SavedState){
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  Navigator.pop(context, true);
+                });
+                return Scaffold(
+                    appBar: AppBar(
+                      title: Text("Registro de Turno"),
+                    ),
+                    body:Center(
+                      child: Container(),
+                    )
                 );
               }
               else{
