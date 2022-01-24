@@ -65,23 +65,24 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                             child: Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ElevatedButton(
+                                   if (state.isValid)
+                                     ElevatedButton(
 
                                       style: ButtonStyle(
                                           backgroundColor: MaterialStateProperty
                                               .all<Color>(Colors.green)),
-                                      onPressed: !state.isValid
-                                          ? null
-                                          : () async {
+                                      onPressed: () async {
                                         await bloc.save();
                                         Navigator.pop(context, null);
                                       },
                                       child: Text('GUARDAR',
                                           style: TextStyle(fontSize: 18)),
                                     ),
-                                    Spacer(),
-                                    ElevatedButton(
+                                    if (false) Spacer(),
+                                    if (false)
+                                      ElevatedButton(
                                       style: ButtonStyle(
                                           backgroundColor: MaterialStateProperty
                                               .all<Color>(Colors.red)),
