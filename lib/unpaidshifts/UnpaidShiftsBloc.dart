@@ -32,17 +32,17 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
     emit(LoadedState(shifts: shifts, carer: carerInfo));
   }
 
-  void calculateOverlap(MyShiftDataModel myShift, ShiftDataModel otherShift) {
-             if (myShift.id!=otherShift.id && myShift.end.millisecondsSinceEpoch >= otherShift.start.millisecondsSinceEpoch && myShift.start.millisecondsSinceEpoch <= otherShift.end.millisecondsSinceEpoch){
+  void calculateOverlap(DateTime myShiftStart, DateTime myShiftEnd, DateTime otherShiftStart, DateTime otherShiftEnd) {
+    if (myShiftEnd.millisecondsSinceEpoch >= otherShiftStart.millisecondsSinceEpoch && myShiftStart.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch){
       final int overlapTime;
-      if (myShift.end.millisecondsSinceEpoch <= otherShift.end.millisecondsSinceEpoch) {
-        final delta = myShift.end.millisecondsSinceEpoch -
-            otherShift.start.millisecondsSinceEpoch;
+      if (myShiftEnd.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch) {
+        final delta = myShiftEnd.millisecondsSinceEpoch -
+            otherShiftStart.millisecondsSinceEpoch;
         overlapTime = myShift.interval < delta ? myShift.interval : delta;
       }
       else{
-        final delta = otherShift.end.millisecondsSinceEpoch -
-            myShift.start.millisecondsSinceEpoch;
+        final delta = otherShiftEnd.millisecondsSinceEpoch -
+            myShiftStart.millisecondsSinceEpoch;
         overlapTime = otherShift.interval < delta ? otherShift.interval  : delta;
       }
       myShift.addOverlappedShift(otherShift,overlapTime);
