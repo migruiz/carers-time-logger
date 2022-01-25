@@ -31,7 +31,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                 final shifts = state.shifts;
                 return Scaffold(
                   appBar: AppBar(
-                    title: Text("Turnos por pagar de ${state.carer.nickname}"),
+                    title: Text("${state.shifts.length} Turnos por pagar de ${state.carer.nickname}"),
                   ),
                   body: Center(
                     child: Column(
@@ -57,7 +57,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                     bloc.add(LoadDataEvent(carerId: this.carerId));
                                   },
                                   child: Column(
-
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                 Row(
                                   children: [
@@ -92,26 +92,31 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                                 color: Colors.black,
                                                 fontSize: 16),
                                           ),
-                                          Container(height: 10,),
-                                          ...shift.overlappedShifts.entries.map((e) => Text(e.key.carerName +' '+  e.key.start
-                                              .fromLocalToColombianTime()
-                                              .formatDateTime()
-                                              .toCapitalized() + ' -> ' + e.key.end
-                                              .fromLocalToColombianTime()
-                                              .formatDateTime()
-                                              .toCapitalized() + '   = ' +(e.value / (1000 * 60 * 60)).toStringAsFixed(1) ))
                                         ]),
+
                                     Expanded(
                                         child: Align(
                                             alignment: Alignment.bottomRight,
-                                            child: Text(
-                                              "${shift.hours}h @ ${shift.overlappedHours}h",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 20),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  "${shift.hours}h",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 22),
+                                                ),
+                                              ],
                                             )))
                                   ],
                                 ),
+                                        if (shift.isOverlapping)
+                                          Text(
+                                            "** ${shift.overlappedHours} horas cruzadas **",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 14),
+                                          ),
                                 Divider(
                                   height: 40,
                                   thickness: 1,
@@ -149,9 +154,17 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                       child: Container(
                                         color: Colors.black87,
                                         padding: EdgeInsets.all(4),
-                                        child: Text(
-                                            "TOTAL HORAS TRABAJADAS: ${state.totalHours.toStringAsFixed(1)}",
-                                            style: TextStyle(fontSize: 20, color: Colors.white)),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                                "TOTAL HORAS TRABAJADAS: ${state.totalHours.toStringAsFixed(1)}",
+                                                style: TextStyle(fontSize: 20, color: Colors.white)),
+                                            if (state.isOverlapping)
+                                              Text(
+                                                  "** HORAS CRUZADAS: ${state.totalOverlappingHours.toStringAsFixed(1)} **",
+                                                  style: TextStyle(fontSize: 16, color: Colors.redAccent))
+                                          ],
+                                        ),
                                       ),
                                     )
                                   ],

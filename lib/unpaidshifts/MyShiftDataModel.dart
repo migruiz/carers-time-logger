@@ -8,6 +8,8 @@ class MyShiftDataModel{
   final String id;
   final Map<ShiftDataModel,int> overlappedShifts = Map();
 
+  bool get isOverlapping => overlappedShifts.isNotEmpty;
+
   int get overlappedTime => overlappedShifts.values.fold(0, (sum, next) => sum + next);
   double get overlappedHours => double.parse((overlappedTime / (1000 * 60 * 60)).toStringAsFixed(1));
   int get interval => end.millisecondsSinceEpoch -start.millisecondsSinceEpoch;
