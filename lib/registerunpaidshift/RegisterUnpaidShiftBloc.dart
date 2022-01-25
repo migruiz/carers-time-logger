@@ -1,4 +1,5 @@
 import 'package:carerstimelogger/CarersRepository.dart';
+import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsRepository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carerstimelogger/Extensions.dart';
@@ -6,11 +7,31 @@ import 'RegisterUnpaidShiftEvent.dart';
 import 'RegisterUnpaidShiftState.dart';
 
 class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnpaidShiftState> {
+  RegisterUnpaidShiftLoadedState get currentState  => state as RegisterUnpaidShiftLoadedState;
   RegisterUnpaidShiftBloc() : super(LoadingState()) {
     on<NewShiftEvent>(_onNewShift);
     on<EditShiftEvent>(_onEditShift);
-    on<StartDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftLoadedState(shiftId: (state as RegisterUnpaidShiftLoadedState).shiftId,carer: (state as RegisterUnpaidShiftLoadedState).carer, carerId: (state as RegisterUnpaidShiftLoadedState).carerId,saving: false, start: event.value.fromColombianToLocalTime(), end: (state as RegisterUnpaidShiftLoadedState).end)));
-    on<EndDateTimeEvent>((event,emit)=> emit(RegisterUnpaidShiftLoadedState(shiftId: (state as RegisterUnpaidShiftLoadedState).shiftId, carer: (state as RegisterUnpaidShiftLoadedState).carer, carerId: (state as RegisterUnpaidShiftLoadedState).carerId,saving: false, start: (state as RegisterUnpaidShiftLoadedState).start, end: event.value.fromColombianToLocalTime())));
+    on<StartDateTimeEvent>((event,emit)=> emit(
+          RegisterUnpaidShiftLoadedState(
+              shiftId: currentState.shiftId,
+              carer: currentState.carer,
+              carerId: currentState.carerId,
+              allUnpaidShifts: currentState.allUnpaidShifts,
+              saving: false,
+              start: event.value.fromColombianToLocalTime(),
+              end: currentState.end
+    )
+    ));
+    on<EndDateTimeEvent>((event,emit)=> emit(
+        RegisterUnpaidShiftLoadedState(
+            shiftId: currentState.shiftId,
+            carer: currentState.carer,
+            carerId: currentState.carerId,
+            allUnpaidShifts: currentState.allUnpaidShifts,
+            saving: false,
+            start: currentState.start,
+            end: event.value.fromColombianToLocalTime()
+        )));
     on<SaveEvent>(_onSaveEvent);
     on<DeleteEvent>(_onDeleteEvent);
   }
@@ -19,12 +40,17 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
     emit(LoadingState());
     final repo = CarersRepository();
     final carer = await repo.getCarerInfo(event.carerId);
-
+    final allUnpaidshifts = await UnpaidShiftsRepository().getAllUnpaidShifts();
     final unpaidShiftsCollection =  FirebaseFirestore.instance.collection('carers/${event.carerId}/unpaidtime');
     final shiftInfoSnaphost = await unpaidShiftsCollection.doc(event.shiftId).get();
     final shiftInfoMap =  shiftInfoSnaphost.data() as Map<String, dynamic>;
 
-    emit(RegisterUnpaidShiftLoadedState(carerId: event.carerId,carer: carer,shiftId: event.shiftId,  saving: false,
+    emit(RegisterUnpaidShiftLoadedState(
+        carerId: event.carerId,
+        carer: carer,
+        shiftId: event.shiftId,
+        saving: false,
+        allUnpaidShifts: allUnpaidshifts,
         start: (shiftInfoMap['start'] as Timestamp).toDate(),
         end: (shiftInfoMap['end'] as Timestamp).toDate()));
   }
@@ -33,23 +59,46 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
     emit(LoadingState());
     final repo = CarersRepository();
     final carer = await repo.getCarerInfo(event.carerId);
-    emit(RegisterUnpaidShiftLoadedState(carerId: event.carerId,shiftId:null, carer: carer, saving: false,  start: null, end: null));
+    final allUnpaidshifts = await UnpaidShiftsRepository().getAllUnpaidShifts();
+    emit(RegisterUnpaidShiftLoadedState(
+        carerId: event.carerId,
+        shiftId:null,
+        carer: carer,
+        saving: false,
+        allUnpaidShifts: allUnpaidshifts,
+        start: null,
+        end: null
+    ));
   }
 
   void _onDeleteEvent(DeleteEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
-    final currentState = state as RegisterUnpaidShiftLoadedState;
     CollectionReference carerUnpaidTime =
     FirebaseFirestore.instance.collection('carers/${currentState.carerId}/unpaidtime');
-    emit(RegisterUnpaidShiftLoadedState(carer: currentState.carer,shiftId: currentState.shiftId,  carerId: currentState.carerId, saving: true, start: currentState.start,end: currentState.end));
+    emit(RegisterUnpaidShiftLoadedState(
+        carer: currentState.carer,
+        shiftId: currentState.shiftId,
+        carerId: currentState.carerId,
+        saving: true,
+        allUnpaidShifts: currentState.allUnpaidShifts,
+        start: currentState.start,
+        end: currentState.end
+    ));
     await carerUnpaidTime.doc(currentState.shiftId).delete();
     emit(SavedState());
   }
 
   void _onSaveEvent(SaveEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
-    final currentState = state as RegisterUnpaidShiftLoadedState;
     CollectionReference carerUnpaidTime =
     FirebaseFirestore.instance.collection('carers/${currentState.carerId}/unpaidtime');
-    emit(RegisterUnpaidShiftLoadedState(carer: currentState.carer,shiftId: currentState.shiftId,  carerId: currentState.carerId, saving: true, start: currentState.start,end: currentState.end));
+    emit(RegisterUnpaidShiftLoadedState(
+        carer: currentState.carer,
+        shiftId: currentState.shiftId,
+        carerId: currentState.carerId,
+        saving: true,
+        allUnpaidShifts: currentState.allUnpaidShifts,
+        start: currentState.start,
+        end: currentState.end
+    ));
     if (currentState.isNew) {
       await carerUnpaidTime.add({
         'start': Timestamp.fromDate(currentState.start!),

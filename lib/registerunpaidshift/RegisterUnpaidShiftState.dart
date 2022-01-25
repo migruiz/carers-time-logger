@@ -1,5 +1,7 @@
 import '../CarerData.dart';
 import 'package:carerstimelogger/Extensions.dart';
+
+import '../ShiftDataModel.dart';
 abstract class RegisterUnpaidShiftState {}
 class LoadingState extends RegisterUnpaidShiftState{}
 class SavedState extends RegisterUnpaidShiftState{}
@@ -9,6 +11,8 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
   final DateTime? end;
   final bool saving;
   final String? shiftId;
+  final List<ShiftDataModel> allUnpaidShifts;
+
   bool get isNew => shiftId==null;
   final CarerData carer;
 
@@ -22,5 +26,5 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
   bool get datesSet => startDateTimeSet && endDateTimeSet;
   bool get isValid => datesSet && end!.millisecondsSinceEpoch-start!.millisecondsSinceEpoch>0;
 
-  RegisterUnpaidShiftLoadedState({required this.shiftId, required this.carer, required this.saving, required this.carerId, required this.start,required this.end});
+  RegisterUnpaidShiftLoadedState({required this.shiftId,required this.allUnpaidShifts, required this.carer, required this.saving, required this.carerId, required this.start,required this.end});
 }
