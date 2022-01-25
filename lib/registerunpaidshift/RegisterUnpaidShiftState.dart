@@ -15,6 +15,10 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
   final String? shiftId;
   final List<ShiftDataModel> allUnpaidShifts;
 
+  bool get isOverlapping => overlappedShifts.isNotEmpty;
+  double get overlappedHours => double.parse((overlappedTime / (1000 * 60 * 60)).toStringAsFixed(1));
+  int get overlappedTime => overlappedShifts.values.fold(0, (sum, next) => sum + next);
+
   bool get isNew => shiftId==null;
   final CarerData carer;
   final Map<ShiftDataModel,int> overlappedShifts = Map();

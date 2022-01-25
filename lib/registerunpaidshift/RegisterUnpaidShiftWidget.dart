@@ -58,9 +58,16 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                               margin: EdgeInsets.all(4),
                               child: Text(
                                 "${state.hours} Horas",
-                                style: TextStyle(fontSize: 40,
+                                style: TextStyle(fontSize: 32,
                                     color: Colors.green),
                               )
+                          ),
+                        if (state.isOverlapping)
+                          Text(
+                            "** ${state.overlappedHours} horas cruzadas **",
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18),
                           ),
                         Expanded(
                             child: Align(
