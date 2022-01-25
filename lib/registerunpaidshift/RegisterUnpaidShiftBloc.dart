@@ -21,6 +21,7 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
               start: event.value.fromColombianToLocalTime(),
               end: currentState.end
     )
+            ..calculateOverlappingShifts()
     ));
     on<EndDateTimeEvent>((event,emit)=> emit(
         RegisterUnpaidShiftLoadedState(
@@ -31,7 +32,9 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
             saving: false,
             start: currentState.start,
             end: event.value.fromColombianToLocalTime()
-        )));
+        )
+          ..calculateOverlappingShifts()
+    ));
     on<SaveEvent>(_onSaveEvent);
     on<DeleteEvent>(_onDeleteEvent);
   }
@@ -52,7 +55,9 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
         saving: false,
         allUnpaidShifts: allUnpaidshifts,
         start: (shiftInfoMap['start'] as Timestamp).toDate(),
-        end: (shiftInfoMap['end'] as Timestamp).toDate()));
+        end: (shiftInfoMap['end'] as Timestamp).toDate()
+    )..calculateOverlappingShifts()
+    );
   }
 
   void _onNewShift(NewShiftEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
@@ -68,7 +73,8 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
         allUnpaidShifts: allUnpaidshifts,
         start: null,
         end: null
-    ));
+    )..calculateOverlappingShifts()
+    );
   }
 
   void _onDeleteEvent(DeleteEvent event, Emitter<RegisterUnpaidShiftState> emit) async{
@@ -82,7 +88,8 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
         allUnpaidShifts: currentState.allUnpaidShifts,
         start: currentState.start,
         end: currentState.end
-    ));
+    )..calculateOverlappingShifts()
+    );
     await carerUnpaidTime.doc(currentState.shiftId).delete();
     emit(SavedState());
   }
@@ -98,7 +105,8 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
         allUnpaidShifts: currentState.allUnpaidShifts,
         start: currentState.start,
         end: currentState.end
-    ));
+    )..calculateOverlappingShifts()
+    );
     if (currentState.isNew) {
       await carerUnpaidTime.add({
         'start': Timestamp.fromDate(currentState.start!),

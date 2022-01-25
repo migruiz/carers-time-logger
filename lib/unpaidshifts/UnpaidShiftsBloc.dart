@@ -25,7 +25,7 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
     for(final myShift in shifts){
       for(final otherShift in allOtherShifsts){
         if (myShift.id!=otherShift.id) {
-          final overlapInterval = _calculateOverlap(
+          final overlapInterval = UnpaidShiftsRepository().calculateOverlap(
               myShiftStart: myShift.start,
               myShiftEnd: myShift.end,
               otherShiftStart: otherShift.start,
@@ -42,25 +42,7 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
     emit(LoadedState(shifts: shifts, carer: carerInfo));
   }
 
-  int _calculateOverlap({required DateTime myShiftStart,required  DateTime myShiftEnd,required  DateTime otherShiftStart,required  DateTime otherShiftEnd}) {
-    final myShiftInterval = myShiftEnd.millisecondsSinceEpoch - myShiftStart.millisecondsSinceEpoch;
-    final otherShiftInterval = otherShiftEnd.millisecondsSinceEpoch - otherShiftStart.millisecondsSinceEpoch;
-    if (myShiftEnd.millisecondsSinceEpoch >= otherShiftStart.millisecondsSinceEpoch && myShiftStart.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch){
-      final int overlapTime;
-      if (myShiftEnd.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch) {
-        final delta = myShiftEnd.millisecondsSinceEpoch -
-            otherShiftStart.millisecondsSinceEpoch;
-        overlapTime = myShiftInterval < delta ? myShiftInterval : delta;
-      }
-      else{
-        final delta = otherShiftEnd.millisecondsSinceEpoch -
-            myShiftStart.millisecondsSinceEpoch;
-        overlapTime = otherShiftInterval < delta ? otherShiftInterval  : delta;
-      }
-      return overlapTime;
-    }
-    return 0;
-  }
+
 
 
 }

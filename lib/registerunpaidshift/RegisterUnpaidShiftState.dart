@@ -1,3 +1,5 @@
+import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsRepository.dart';
+
 import '../CarerData.dart';
 import 'package:carerstimelogger/Extensions.dart';
 
@@ -15,6 +17,25 @@ class RegisterUnpaidShiftLoadedState extends RegisterUnpaidShiftState{
 
   bool get isNew => shiftId==null;
   final CarerData carer;
+  final Map<ShiftDataModel,int> overlappedShifts = Map();
+  void calculateOverlappingShifts(){
+    overlappedShifts.clear();
+    if (!datesSet){
+      return;
+    }
+    final otherShifts = allUnpaidShifts.where((element) => shiftId==null || (shiftId!=null && element.id!=shiftId!));
+    for(final otherShift in otherShifts){
+      final overlapInterval = UnpaidShiftsRepository().calculateOverlap(
+          myShiftStart: start!,
+          myShiftEnd: end!,
+          otherShiftStart: otherShift.start,
+          otherShiftEnd: otherShift.end
+      );
+      if (overlapInterval>0){
+        overlappedShifts[otherShift] = overlapInterval;
+      }
+    }
+  }
 
   DateTime get suggestedStart => start??(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, carer.usualStartHour, 0).fromColombianToLocalTime());
   DateTime get suggestedEnd => end??(start!.add(Duration(hours: 12)));

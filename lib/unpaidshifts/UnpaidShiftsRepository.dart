@@ -19,7 +19,25 @@ class UnpaidShiftsRepository{
     return shifts;
   }
 
-
+  int calculateOverlap({required DateTime myShiftStart,required  DateTime myShiftEnd,required  DateTime otherShiftStart,required  DateTime otherShiftEnd}) {
+    final myShiftInterval = myShiftEnd.millisecondsSinceEpoch - myShiftStart.millisecondsSinceEpoch;
+    final otherShiftInterval = otherShiftEnd.millisecondsSinceEpoch - otherShiftStart.millisecondsSinceEpoch;
+    if (myShiftEnd.millisecondsSinceEpoch >= otherShiftStart.millisecondsSinceEpoch && myShiftStart.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch){
+      final int overlapTime;
+      if (myShiftEnd.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch) {
+        final delta = myShiftEnd.millisecondsSinceEpoch -
+            otherShiftStart.millisecondsSinceEpoch;
+        overlapTime = myShiftInterval < delta ? myShiftInterval : delta;
+      }
+      else{
+        final delta = otherShiftEnd.millisecondsSinceEpoch -
+            myShiftStart.millisecondsSinceEpoch;
+        overlapTime = otherShiftInterval < delta ? otherShiftInterval  : delta;
+      }
+      return overlapTime;
+    }
+    return 0;
+  }
 
   Future<List<ShiftDataModel>> getAllUnpaidShifts() async{
     final carers = await CarersRepository().getAllCarers();
