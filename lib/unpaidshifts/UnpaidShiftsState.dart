@@ -1,10 +1,12 @@
 import 'package:carerstimelogger/CarerData.dart';
-import 'package:carerstimelogger/unpaidshifts/ShiftDataModel.dart';
+import 'package:carerstimelogger/ShiftDataModel.dart';
+
+import 'MyShiftDataModel.dart';
 
 abstract class UnpaidShiftsState {}
 class LoadingState extends UnpaidShiftsState{}
 class LoadedState extends UnpaidShiftsState{
-  final List<ShiftDataModel> shifts;
+  final List<MyShiftDataModel> shifts;
   final CarerData carer;
 
   double get totalHours => shifts.fold(0, (sum, next) => sum + next.hours);
