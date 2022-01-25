@@ -92,6 +92,13 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                                 color: Colors.black,
                                                 fontSize: 16),
                                           ),
+                                          ...shift.overlappedShifts.entries.map((e) => Text(e.key.carerName +' '+  e.key.start
+                                              .fromLocalToColombianTime()
+                                              .formatDateTime()
+                                              .toCapitalized() + ' -> ' + e.key.end
+                                              .fromLocalToColombianTime()
+                                              .formatDateTime()
+                                              .toCapitalized() + '   = ' +(e.value / (1000 * 60 * 60)).toStringAsFixed(1) ))
                                         ]),
                                     Expanded(
                                         child: Align(
