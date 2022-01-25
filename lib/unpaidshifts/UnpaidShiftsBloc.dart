@@ -1,6 +1,7 @@
 import 'package:carerstimelogger/CarerData.dart';
 import 'package:carerstimelogger/CarersRepository.dart';
 import 'package:carerstimelogger/Extensions.dart';
+import 'package:carerstimelogger/unpaidshifts/MyShiftDataModel.dart';
 import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsRepository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -23,25 +24,29 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
 
     for(final myShift in shifts){
       for(final otherShift in allOtherShifsts){
-          if (myShift.id!=otherShift.id && myShift.end.millisecondsSinceEpoch >= otherShift.start.millisecondsSinceEpoch && myShift.start.millisecondsSinceEpoch <= otherShift.end.millisecondsSinceEpoch){
-            final int overlapTime;
-            if (myShift.end.millisecondsSinceEpoch <= otherShift.end.millisecondsSinceEpoch) {
-              final delta = myShift.end.millisecondsSinceEpoch -
-                  otherShift.start.millisecondsSinceEpoch;
-              overlapTime = myShift.interval < delta ? myShift.interval : delta;
-            }
-            else{
-              final delta = otherShift.end.millisecondsSinceEpoch -
-                  myShift.start.millisecondsSinceEpoch;
-              overlapTime = otherShift.interval < delta ? otherShift.interval  : delta;
-            }
-            myShift.addOverlappedShift(otherShift,overlapTime);
-          }
+          calculateOverlap(myShift, otherShift);
       }
     }
 
     shifts.sort((a,b) => a.start.compareTo(b.start));
     emit(LoadedState(shifts: shifts, carer: carerInfo));
+  }
+
+  void calculateOverlap(MyShiftDataModel myShift, ShiftDataModel otherShift) {
+             if (myShift.id!=otherShift.id && myShift.end.millisecondsSinceEpoch >= otherShift.start.millisecondsSinceEpoch && myShift.start.millisecondsSinceEpoch <= otherShift.end.millisecondsSinceEpoch){
+      final int overlapTime;
+      if (myShift.end.millisecondsSinceEpoch <= otherShift.end.millisecondsSinceEpoch) {
+        final delta = myShift.end.millisecondsSinceEpoch -
+            otherShift.start.millisecondsSinceEpoch;
+        overlapTime = myShift.interval < delta ? myShift.interval : delta;
+      }
+      else{
+        final delta = otherShift.end.millisecondsSinceEpoch -
+            myShift.start.millisecondsSinceEpoch;
+        overlapTime = otherShift.interval < delta ? otherShift.interval  : delta;
+      }
+      myShift.addOverlappedShift(otherShift,overlapTime);
+    }
   }
 
 
