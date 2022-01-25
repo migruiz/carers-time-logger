@@ -92,6 +92,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                                 color: Colors.black,
                                                 fontSize: 16),
                                           ),
+                                          Container(height: 10,),
                                           ...shift.overlappedShifts.entries.map((e) => Text(e.key.carerName +' '+  e.key.start
                                               .fromLocalToColombianTime()
                                               .formatDateTime()
