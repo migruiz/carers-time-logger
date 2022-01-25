@@ -9,5 +9,5 @@ class LoadedState extends UnpaidShiftsState{
 
   double get totalHours => shifts.fold(0, (sum, next) => sum + next.hours);
 
-  LoadedState({required this.shifts, required this.carer});
+  LoadedState({required this.shifts , required this.carer});
 }

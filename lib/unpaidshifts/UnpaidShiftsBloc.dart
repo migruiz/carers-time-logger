@@ -18,7 +18,8 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
       LoadDataEvent event, Emitter<UnpaidShiftsState> emit) async {
     emit(LoadingState());
     final carerInfo = await CarersRepository().getCarerInfo(event.carerId);
-    final shifts = await UnpaidShiftsRepository().getUnpaidShifts(event.carerId);
+    final shifts = await UnpaidShiftsRepository().getUnpaidShifts(carerId: event.carerId, carerName: carerInfo.nickname);
+    final allOtherShifsts = await UnpaidShiftsRepository().getAllUnpaidShifts();
     shifts.sort((a,b) => a.start.compareTo(b.start));
     emit(LoadedState(shifts: shifts, carer: carerInfo));
   }
