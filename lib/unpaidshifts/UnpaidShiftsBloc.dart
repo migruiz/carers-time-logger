@@ -24,7 +24,17 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
 
     for(final myShift in shifts){
       for(final otherShift in allOtherShifsts){
-          calculateOverlap(myShift, otherShift);
+        if (myShift.id!=otherShift.id) {
+          final overlapInterval = _calculateOverlap(
+              myShiftStart: myShift.start,
+              myShiftEnd: myShift.end,
+              otherShiftStart: otherShift.start,
+              otherShiftEnd: otherShift.end
+          );
+          if (overlapInterval>0){
+            myShift.addOverlappedShift(otherShift, overlapInterval);
+          }
+        }
       }
     }
 
@@ -32,21 +42,24 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
     emit(LoadedState(shifts: shifts, carer: carerInfo));
   }
 
-  void calculateOverlap(DateTime myShiftStart, DateTime myShiftEnd, DateTime otherShiftStart, DateTime otherShiftEnd) {
+  int _calculateOverlap({required DateTime myShiftStart,required  DateTime myShiftEnd,required  DateTime otherShiftStart,required  DateTime otherShiftEnd}) {
+    final myShiftInterval = myShiftEnd.millisecondsSinceEpoch - myShiftStart.millisecondsSinceEpoch;
+    final otherShiftInterval = otherShiftEnd.millisecondsSinceEpoch - otherShiftStart.millisecondsSinceEpoch;
     if (myShiftEnd.millisecondsSinceEpoch >= otherShiftStart.millisecondsSinceEpoch && myShiftStart.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch){
       final int overlapTime;
       if (myShiftEnd.millisecondsSinceEpoch <= otherShiftEnd.millisecondsSinceEpoch) {
         final delta = myShiftEnd.millisecondsSinceEpoch -
             otherShiftStart.millisecondsSinceEpoch;
-        overlapTime = myShift.interval < delta ? myShift.interval : delta;
+        overlapTime = myShiftInterval < delta ? myShiftInterval : delta;
       }
       else{
         final delta = otherShiftEnd.millisecondsSinceEpoch -
             myShiftStart.millisecondsSinceEpoch;
-        overlapTime = otherShift.interval < delta ? otherShift.interval  : delta;
+        overlapTime = otherShiftInterval < delta ? otherShiftInterval  : delta;
       }
-      myShift.addOverlappedShift(otherShift,overlapTime);
+      return overlapTime;
     }
+    return 0;
   }
 
 
