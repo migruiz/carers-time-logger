@@ -57,17 +57,90 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                           Container(
                               margin: EdgeInsets.all(4),
                               child: Text(
-                                "${state.hours} Horas",
+                                "${state.hours} horas trabajadas",
                                 style: TextStyle(fontSize: 32,
                                     color: Colors.green),
                               )
                           ),
                         if (state.isOverlapping)
+                          Container(height: 10,),
+                        if (state.isOverlapping)
                           Text(
-                            "** ${state.overlappedHours} horas cruzadas **",
+                            "** ${state.totalOverlappedHours} horas cruzadas**",
                             style: TextStyle(
                                 color: Colors.red,
                                 fontSize: 18),
+                          ),
+                        if (state.isOverlapping)
+                          ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              padding: EdgeInsets.all(8),
+                              shrinkWrap: true,
+                              itemCount: state.overlappedShifts.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final entry = state.overlappedShifts.entries.toList()[index];
+                                final shift = entry.key;
+                                final totalOverlap = entry.value;
+                                return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  shift.carerName,
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.red,
+                                                      fontSize: 18),
+                                                ),
+                                                Text(
+                                                  shift.start
+                                                      .fromLocalToColombianTime()
+                                                      .formatDateTime()
+                                                      .toCapitalized(),
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 16),
+                                                ),
+                                                Container(
+                                                    margin: EdgeInsets.only(left:20),
+                                                    child:Text("↓",style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 20))),
+                                                Text(
+                                                  shift.end
+                                                      .fromLocalToColombianTime()
+                                                      .formatDateTime()
+                                                      .toCapitalized(),
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  "** $totalOverlap horas cruzadas **",
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.red,
+                                                      fontSize: 14),
+                                                ),
+                                              ]),
+
+
+                                        ],
+                                      ),
+                                      Divider(
+                                        height: 40,
+                                        thickness: 1,
+                                      )
+                                    ]);
+                              }
                           ),
                         Expanded(
                             child: Align(
