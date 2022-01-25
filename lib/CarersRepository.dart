@@ -1,3 +1,4 @@
+import 'package:carerstimelogger/CarerShiftData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'CarerData.dart';
@@ -10,4 +11,6 @@ class CarersRepository{
     final carerInfo = CarerData(nickname: carearInfoMap['nickname']!, usualStartHour: carearInfoMap['usualStartHour']);
     return carerInfo;
   }
+
+
 }
