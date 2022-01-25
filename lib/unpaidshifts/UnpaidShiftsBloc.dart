@@ -24,7 +24,20 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
     for(final myShift in shifts){
       for(final otherShift in allOtherShifsts){
           if (myShift.id!=otherShift.id && myShift.end.millisecondsSinceEpoch >= otherShift.start.millisecondsSinceEpoch && myShift.start.millisecondsSinceEpoch <= otherShift.end.millisecondsSinceEpoch){
-            myShift.addOverlappedShift(otherShift);
+            final int overlapTime;
+            if (myShift.end.millisecondsSinceEpoch < otherShift.end.millisecondsSinceEpoch) {
+              final delta = myShift.end.millisecondsSinceEpoch -
+                  otherShift.start.millisecondsSinceEpoch;
+              overlapTime = myShift.interval < delta ? delta : myShift
+                  .interval;
+            }
+            else{
+              final delta = otherShift.end.millisecondsSinceEpoch -
+                  myShift.start.millisecondsSinceEpoch;
+              overlapTime = otherShift.interval < delta ? delta : otherShift
+                  .interval;
+            }
+            myShift.addOverlappedShift(otherShift,overlapTime);
           }
       }
     }

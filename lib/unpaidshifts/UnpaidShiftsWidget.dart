@@ -97,7 +97,7 @@ class UnpaidShiftsWidget extends StatelessWidget{
                                         child: Align(
                                             alignment: Alignment.bottomRight,
                                             child: Text(
-                                              "${shift.hours}h",
+                                              "${shift.hours}h @ ${shift.overlappedHours}h",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 20),
