@@ -1,4 +1,5 @@
 import 'package:carerstimelogger/Extensions.dart';
+import 'package:carerstimelogger/carertopayshiftdetails/CarerToPayShiftDetailsWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -41,7 +42,11 @@ class CarerToPayDetailsWidget extends StatelessWidget{
                                 return InkWell(
                                     onTap: () async{
 
-                                      bloc.add(LoadDataEvent(carerId: this.carerId));
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  CarerToPayShiftDetailsWidget(carer: carer, shiftData:shift)));
                                     },
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,

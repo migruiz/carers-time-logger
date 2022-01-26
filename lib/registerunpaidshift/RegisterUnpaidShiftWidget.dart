@@ -72,7 +72,8 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                                 fontSize: 18),
                           ),
                         if (state.isOverlapping)
-                          ListView.builder(
+              Expanded(
+              child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               padding: EdgeInsets.all(8),
                               shrinkWrap: true,
@@ -141,7 +142,7 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                                       )
                                     ]);
                               }
-                          ),
+                          )),
                         Expanded(
                             child: Align(
                                 alignment: Alignment.bottomCenter,

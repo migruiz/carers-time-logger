@@ -59,76 +59,79 @@ class CarerToPayShiftDetailsWidget extends StatelessWidget{
                     fontSize: 18),
               ),
             if (shiftData.isOverlapping)
-              ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.all(8),
-                  shrinkWrap: true,
-                  itemCount: shiftData.overlappedShifts.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final entry = shiftData.overlappedShifts.entries.toList()[index];
-                    final shift = entry.key;
-                    final totalOverlap = entry.value;
-                    return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+          Expanded(
+          child:
+                    ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        padding: EdgeInsets.all(8),
+                        shrinkWrap: true,
+                        itemCount: shiftData.overlappedShifts.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final entry = shiftData.overlappedShifts.entries.toList()[index];
+                          final shift = entry.key;
+                          final totalOverlapHours = double.parse((entry.value / (1000 * 60 * 60)).toStringAsFixed(1));
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
                                   children: [
-                                    Text(
-                                      shift.carerName,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red,
-                                          fontSize: 18),
-                                    ),
-                                    Text(
-                                      shift.start
-                                          .fromLocalToColombianTime()
-                                          .formatDateTime()
-                                          .toCapitalized(),
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 16),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.only(left:20),
-                                        child:Text("↓",style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 20))),
-                                    Text(
-                                      shift.end
-                                          .fromLocalToColombianTime()
-                                          .formatDateTime()
-                                          .toCapitalized(),
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 16),
-                                    ),
-                                    Text(
-                                      "** $totalOverlap horas cruzadas **",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red,
-                                          fontSize: 14),
-                                    ),
-                                  ]),
+                                    Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            shift.carerName,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                                fontSize: 18),
+                                          ),
+                                          Text(
+                                            shift.start
+                                                .fromLocalToColombianTime()
+                                                .formatDateTime()
+                                                .toCapitalized(),
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 16),
+                                          ),
+                                          Container(
+                                              margin: EdgeInsets.only(left:20),
+                                              child:Text("↓",style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 20))),
+                                          Text(
+                                            shift.end
+                                                .fromLocalToColombianTime()
+                                                .formatDateTime()
+                                                .toCapitalized(),
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            "** $totalOverlapHours horas cruzadas **",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                                fontSize: 14),
+                                          ),
+                                        ]),
 
 
-                            ],
-                          ),
-                          Divider(
-                            height: 40,
-                            thickness: 1,
-                          )
-                        ]);
-                  }
-              ),
+                                  ],
+                                ),
+                                Divider(
+                                  height: 40,
+                                  thickness: 1,
+                                )
+                              ]);
+                        }
+                    )
+          ),
           ],
         ),
       ),
