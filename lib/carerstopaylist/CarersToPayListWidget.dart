@@ -32,6 +32,13 @@ class CarersToPayListWidget extends StatelessWidget{
                 return Scaffold(
                   appBar: AppBar(
                     title: Text("Turnos por pagar"),
+                      actions: [
+                        IconButton(
+                            icon: Icon( Icons.sync_outlined, color: Colors.white),
+                            onPressed: () async{
+                              bloc.add(LoadDataEvent());
+                            }),
+                      ]
                   ),
                   body: Center(
                     child: Column(

@@ -32,6 +32,13 @@ class UnpaidShiftsWidget extends StatelessWidget{
                 return Scaffold(
                   appBar: AppBar(
                     title: Text("${state.shifts.length} Turnos por pagar de ${state.carer.nickname}"),
+                      actions: [
+                        IconButton(
+                            icon: Icon( Icons.sync_outlined, color: Colors.white),
+                            onPressed: () async{
+                              bloc.add(LoadDataEvent(carerId: this.carerId));
+                            }),
+                      ]
                   ),
                   body: Center(
                     child: Column(
