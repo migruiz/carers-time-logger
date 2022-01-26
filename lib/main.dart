@@ -39,6 +39,13 @@ class MyApp extends StatelessWidget {
               },
             );
           }
+          else if (routingData.route=='payshifts') {
+          return MaterialPageRoute(
+            builder: (context) {
+              return CarersToPayListWidget();
+            },
+          );
+        }
         }
     );
   }
@@ -49,7 +56,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarersToPayListWidget();
+    //return CarersToPayListWidget();
     return UnpaidShiftsWidget(carerId: 'miguel',);
     return MaterialApp(
     home: Text("Not Found")

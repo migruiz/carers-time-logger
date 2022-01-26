@@ -2,7 +2,7 @@ import 'package:carerstimelogger/Extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'CarerToPayDetailsBloc.dart';
 import 'CarerToPayDetailsEvent.dart';
 import 'CarerToPayDetailsState.dart';
@@ -127,7 +127,11 @@ class CarerToPayDetailsWidget extends StatelessWidget{
                                   .all<Color>(Colors.green)),
                                     onPressed: () async{
 
-
+                                      final Uri launchUri = Uri(
+                                        scheme: 'tel',
+                                        path: "677",
+                                      );
+                                      await launch('whatsapp://send?phone=353894195242');
 
                                       bloc.add(LoadDataEvent(carerId: this.carerId));
                                     },
