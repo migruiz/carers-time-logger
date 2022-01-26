@@ -66,6 +66,13 @@ class CarersToPayListWidget extends StatelessWidget{
                                                             color: Colors.black,
                                                             fontSize: 16),
                                                       ),
+                                                      if (carer.isOverlapping)
+                                                        Text(
+                                                          "** ${carer.overlappedHours} horas cruzadas **",
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 14),
+                                                        ),
                                                     ]),
 
                                                 Expanded(
@@ -75,7 +82,7 @@ class CarersToPayListWidget extends StatelessWidget{
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: [
                                                             Text(
-                                                              "TOTh",
+                                                              "${carer.hours}h",
                                                               style: TextStyle(
                                                                   color: Colors.black,
                                                                   fontSize: 22),

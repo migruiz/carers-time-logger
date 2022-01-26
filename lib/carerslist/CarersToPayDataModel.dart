@@ -8,11 +8,16 @@ class CarerToPayDataModel{
 
   final List<CarersToPayShiftDataModel> allUnpaidShifts = List.empty(growable: true);
 
-  bool get isOverlapping => overlappedShifts.isNotEmpty;
-  double get totalOverlappedHours => overlappedShifts.values.fold(0, (sum, next) => sum + next);
+  double get _totalHours => allUnpaidShifts.fold(0, (sum, next) => sum + next.hours);
+  double get hours => double.parse((_totalHours).toStringAsFixed(1));
 
-  final Map<ShiftDataModel,double> overlappedShifts = Map();
+  double get _totalOverlappedHours => allUnpaidShifts.fold(0, (sum, next) => sum + next.overlappedHours);
+  double get overlappedHours => double.parse((_totalOverlappedHours).toStringAsFixed(1));
+  bool get isOverlapping => overlappedHours>0;
 
   CarerToPayDataModel({required this.id,
     required this.nickname, required this.usualStartHour});
+
+
+
 }
