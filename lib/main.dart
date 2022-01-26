@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'carerstopaylist/CarersToPayListWidget.dart';
 import 'firebase_options.dart';
 
 import 'unpaidshifts/UnpaidShiftsWidget.dart';
@@ -38,6 +39,13 @@ class MyApp extends StatelessWidget {
               },
             );
           }
+          else if (routingData.route=='payshifts') {
+          return MaterialPageRoute(
+            builder: (context) {
+              return CarersToPayListWidget();
+            },
+          );
+        }
         }
     );
   }
@@ -48,7 +56,8 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //return UnpaidShiftsWidget(carerId: 'miguel',);
+    //return CarersToPayListWidget();
+    return UnpaidShiftsWidget(carerId: 'miguel',);
     return MaterialApp(
     home: Text("Not Found")
     );
