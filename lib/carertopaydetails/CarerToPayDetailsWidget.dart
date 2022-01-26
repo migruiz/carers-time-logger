@@ -2,6 +2,7 @@ import 'package:carerstimelogger/Extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'CarerToPayDetailsBloc.dart';
 import 'CarerToPayDetailsEvent.dart';
@@ -121,10 +122,25 @@ class CarerToPayDetailsWidget extends StatelessWidget{
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+
                                   ElevatedButton(
-                              style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty
-                                  .all<Color>(Colors.green)),
+                                    style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty
+                                            .all<Color>(Colors.deepPurple)),
+                                    onPressed: () async{
+
+
+
+                                      bloc.add(LoadDataEvent(carerId: this.carerId));
+                                    },
+                                    child: Text('HISTORY',
+                                        style: TextStyle(fontSize: 18)),
+                                  ),
+                                  Container(width: 10,),
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty
+                                            .all<Color>(Colors.green)),
                                     onPressed: () async{
 
                                       final Uri launchUri = Uri(
@@ -135,20 +151,23 @@ class CarerToPayDetailsWidget extends StatelessWidget{
 
                                       bloc.add(LoadDataEvent(carerId: this.carerId));
                                     },
-                                    child: Text('WHATSAPP',
+                                    child: Text('SHARE',
                                         style: TextStyle(fontSize: 18)),
                                   ),
                                   Container(width: 10,),
-                                  ElevatedButton(
-                                    onPressed: () async{
+                                  if (state.canPay)
+                                    ElevatedButton(
+                                      onPressed: state.saving? null: () async{
+                                        if (await context.confirmOperationWithDialog("Confirmar Marcar como pagado?")) {
+                                          bloc.add(PayEvent());
+                                        }
 
 
 
-                                      bloc.add(PayEvent());
-                                    },
-                                    child: Text('PAGAR',
-                                        style: TextStyle(fontSize: 18)),
-                                  )
+                                      },
+                                      child: Text(state.saving?'PAYING...' :'PAY',
+                                          style: TextStyle(fontSize: 18)),
+                                    )
                                 ],
                               )
 
@@ -165,11 +184,14 @@ class CarerToPayDetailsWidget extends StatelessWidget{
                                     children: [
                                       Text(
                                           "TOTAL HORAS TRABAJADAS: ${carer.hours.toStringAsFixed(1)}",
-                                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                                          style: TextStyle(fontSize: 18, color: Colors.white)),
                                       if (carer.isOverlapping)
                                         Text(
                                             "** HORAS CRUZADAS: ${carer.overlappedHours.toStringAsFixed(1)} **",
-                                            style: TextStyle(fontSize: 16, color: Colors.redAccent))
+                                            style: TextStyle(fontSize: 16, color: Colors.redAccent)),
+                                      Text(
+                                          "TOTAL A PAGAR: ${NumberFormat.currency(symbol: '\$',decimalDigits: 0).format(carer.totalToPay)}",
+                                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Colors.white)),
                                     ],
                                   ),
                                 ),

@@ -31,7 +31,7 @@ class CarerToPayDataModel{
     buffer.write("PAGO TURNOS ${nickname.toUpperCase()}\r\n");
     buffer.write("${earliestStart.fromLocalToColombianTime().formatDateTime().toCapitalized()} -> ${latestEnd.fromLocalToColombianTime().formatDateTime().toCapitalized()}\r\n");
     buffer.write("\r\n");
-    buffer.write("TURNOS:\r\n");
+    buffer.write("${allUnpaidShifts.length} TURNOS:\r\n");
     for(final shift in allUnpaidShifts){
       buffer.write("* ${shift.start.fromLocalToColombianTime().formatDateTime().toCapitalized()} -> ${shift.end.fromLocalToColombianTime().formatDateTime().toCapitalized()} = ${shift.hours}h\r\n");
     }
