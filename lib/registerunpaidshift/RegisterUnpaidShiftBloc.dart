@@ -43,7 +43,8 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
     emit(LoadingState());
     final repo = CarersRepository();
     final carer = await repo.getCarerInfo(event.carerId);
-    final allUnpaidshifts = await UnpaidShiftsRepository().getAllUnpaidShifts();
+    final carers = await CarersRepository().getAllCarers();
+    final allUnpaidshifts = await UnpaidShiftsRepository().getAllUnpaidShifts(carers);
     final unpaidShiftsCollection =  FirebaseFirestore.instance.collection('carers/${event.carerId}/unpaidtime');
     final shiftInfoSnaphost = await unpaidShiftsCollection.doc(event.shiftId).get();
     final shiftInfoMap =  shiftInfoSnaphost.data() as Map<String, dynamic>;
@@ -64,7 +65,8 @@ class RegisterUnpaidShiftBloc extends Bloc<RegisterUnpaidShiftEvent, RegisterUnp
     emit(LoadingState());
     final repo = CarersRepository();
     final carer = await repo.getCarerInfo(event.carerId);
-    final allUnpaidshifts = await UnpaidShiftsRepository().getAllUnpaidShifts();
+    final carers = await CarersRepository().getAllCarers();
+    final allUnpaidshifts = await UnpaidShiftsRepository().getAllUnpaidShifts(carers);
     emit(RegisterUnpaidShiftLoadedState(
         carerId: event.carerId,
         shiftId:null,

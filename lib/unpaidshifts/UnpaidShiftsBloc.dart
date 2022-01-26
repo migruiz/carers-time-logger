@@ -20,7 +20,8 @@ class UnpaidShiftsBloc extends Bloc<UnpaidShiftsEvent, UnpaidShiftsState> {
     emit(LoadingState());
     final carerInfo = await CarersRepository().getCarerInfo(event.carerId);
     final shifts = await UnpaidShiftsRepository().getUnpaidShifts(event.carerId);
-    final allOtherShifsts = await UnpaidShiftsRepository().getAllUnpaidShifts();
+    final carers = await CarersRepository().getAllCarers();
+    final allOtherShifsts = await UnpaidShiftsRepository().getAllUnpaidShifts(carers);
 
     for(final myShift in shifts){
       for(final otherShift in allOtherShifsts){

@@ -3,6 +3,7 @@ import 'package:carerstimelogger/ShiftDataModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../CarerData.dart';
 import 'MyShiftDataModel.dart';
 
 class UnpaidShiftsRepository{
@@ -39,8 +40,7 @@ class UnpaidShiftsRepository{
     return 0;
   }
 
-  Future<List<ShiftDataModel>> getAllUnpaidShifts() async{
-    final carers = await CarersRepository().getAllCarers();
+  Future<List<ShiftDataModel>> getAllUnpaidShifts(List<CarerData> carers) async{
     List<ShiftDataModel> list = List.empty(growable: true);
     for(final carer in carers){
         final unpaidShifts = await getUnpaidShifts(carer.id);
