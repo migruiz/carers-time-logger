@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 
 import 'CarersToPayListBloc.dart';
 import 'CarersToPayListEvent.dart';
@@ -64,6 +65,13 @@ class CarersToPayListWidget extends StatelessWidget{
                                                         style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             color: Colors.black,
+                                                            fontSize: 20),
+                                                      ),
+                                                      Container(height: 10,),
+                                                      Text(
+                                                        "${carer.hours} h x ${NumberFormat.currency(symbol: '\$',decimalDigits: 0).format(carer.rate)}",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
                                                             fontSize: 16),
                                                       ),
                                                       if (carer.isOverlapping)
@@ -82,7 +90,7 @@ class CarersToPayListWidget extends StatelessWidget{
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: [
                                                             Text(
-                                                              "${carer.hours}h",
+                                                              "${NumberFormat.currency(symbol: '\$',decimalDigits: 0).format(carer.totalToPay)}",
                                                               style: TextStyle(
                                                                   color: Colors.black,
                                                                   fontSize: 22),
@@ -112,11 +120,8 @@ class CarersToPayListWidget extends StatelessWidget{
                                     child: Column(
                                       children: [
                                         Text(
-                                            "TOTAL HORAS TRABAJADAS: }",
+                                            "TOTAL HORAS TRABAJADAS: ${state.totalHours}",
                                             style: TextStyle(fontSize: 20, color: Colors.white)),
-                                          Text(
-                                              "** HORAS CRUZADAS: **",
-                                              style: TextStyle(fontSize: 16, color: Colors.redAccent))
                                       ],
                                     ),
                                   ),

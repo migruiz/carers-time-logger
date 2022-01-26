@@ -9,7 +9,12 @@ class CarersToPayRepository{
     final carerUnpaidTime =  FirebaseFirestore.instance.collection('carers');
     final snapshot = await carerUnpaidTime.get();
     final carers = snapshot.docs
-        .map((doc) => CarerToPayDataModel(id:doc.id, nickname: doc['nickname']!, usualStartHour: doc['usualStartHour'])
+        .map((doc) => CarerToPayDataModel(
+        id:doc.id,
+        nickname: doc['nickname']!,
+        usualStartHour: doc['usualStartHour'],
+        rate: doc['rate']
+    )
     )
         .toList();
     return carers;

@@ -5,6 +5,7 @@ class CarerToPayDataModel{
   final String nickname;
   final int usualStartHour;
   final String id;
+  final double rate;
 
   final List<CarersToPayShiftDataModel> allUnpaidShifts = List.empty(growable: true);
 
@@ -15,8 +16,11 @@ class CarerToPayDataModel{
   double get overlappedHours => double.parse((_totalOverlappedHours).toStringAsFixed(1));
   bool get isOverlapping => overlappedHours>0;
 
+  double get totalToPay => double.parse((hours * rate).toStringAsFixed(1));
+
+
   CarerToPayDataModel({required this.id,
-    required this.nickname, required this.usualStartHour});
+    required this.nickname, required this.usualStartHour, required this.rate });
 
 
 
