@@ -16,6 +16,10 @@ class CarersToPayListBloc extends Bloc<CarersToPayListEvent, CarersToPayListStat
       LoadDataEvent event, Emitter<CarersToPayListState> emit) async {
     emit(LoadingState());
     final carers = await CarersToPayRepository().getAllCarers();
+    for(final carer in carers){
+      final unpaidShifts = await CarersToPayRepository().getUnpaidShifts(carer.id);
+      carer.allUnpaidShifts.addAll(unpaidShifts);
+    }
     emit(LoadedState(carers: carers));
   }
 
