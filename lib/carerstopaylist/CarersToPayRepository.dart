@@ -19,6 +19,20 @@ class CarersToPayRepository{
         .toList();
     return carers;
   }
+  Future<CarerToPayDataModel> getCarer(String carerId) async {
+    final carerDataCollection =  FirebaseFirestore.instance.collection('carers');
+    final carerInfoSnaphost = await carerDataCollection.doc(carerId).get();
+    final carearInfoMap =  carerInfoSnaphost.data() as Map<String, dynamic>;
+    final carerInfo = CarerToPayDataModel(
+        id: carerInfoSnaphost.id,
+        nickname: carearInfoMap['nickname']!,
+        usualStartHour: carearInfoMap['usualStartHour'],
+        rate: carearInfoMap['rate']
+    );
+    return carerInfo;
+  }
+
+
   Future<List<CarersToPayShiftDataModel>> getUnpaidShifts( String carerId) async{
     final carerUnpaidTime =  FirebaseFirestore.instance.collection('carers/$carerId/unpaidtime');
     final snapshot = await carerUnpaidTime.get();

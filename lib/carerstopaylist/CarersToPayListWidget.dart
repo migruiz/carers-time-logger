@@ -1,3 +1,4 @@
+import 'package:carerstimelogger/carertopaydetails/CarerToPayDetailsWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -46,6 +47,14 @@ class CarersToPayListWidget extends StatelessWidget{
                                   final carer = carers[index];
                                   return InkWell(
                                       onTap: () async{
+
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                fullscreenDialog: true,
+                                                builder: (BuildContext context) =>
+                                                    CarerToPayDetailsWidget(carerId: carer.id)));
+
                                         bloc.add(LoadDataEvent());
                                       },
                                       child: Column(
