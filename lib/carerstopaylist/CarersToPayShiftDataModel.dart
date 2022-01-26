@@ -4,6 +4,7 @@ class CarersToPayShiftDataModel {
   final DateTime start;
   final DateTime end;
   final String id;
+  final String carerName;
   final Map<CarersToPayShiftDataModel,int> overlappedShifts = Map();
 
   bool get isOverlapping => overlappedShifts.isNotEmpty;
@@ -13,7 +14,7 @@ class CarersToPayShiftDataModel {
   double get hours => double.parse((interval / (1000 * 60 * 60)).toStringAsFixed(1));
   double get overlappedHours => double.parse((overlappedTime / (1000 * 60 * 60)).toStringAsFixed(1));
 
-  CarersToPayShiftDataModel({required this.id,  required this.start,required this.end});
+  CarersToPayShiftDataModel({required this.id, required this.carerName,  required this.start,required this.end});
 
   void addOverlappedShift(CarersToPayShiftDataModel otherShift, int overlappedInterval) {
     overlappedShifts[otherShift] = overlappedInterval;

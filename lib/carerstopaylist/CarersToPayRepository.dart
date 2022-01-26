@@ -33,12 +33,13 @@ class CarersToPayRepository{
   }
 
 
-  Future<List<CarersToPayShiftDataModel>> getUnpaidShifts( String carerId) async{
+  Future<List<CarersToPayShiftDataModel>> getUnpaidShifts({required String carerId, required String carerName}) async{
     final carerUnpaidTime =  FirebaseFirestore.instance.collection('carers/$carerId/unpaidtime');
     final snapshot = await carerUnpaidTime.get();
     final shifts = snapshot.docs
         .map((doc) => CarersToPayShiftDataModel(
         id: doc.id,
+        carerName: carerName,
         start: (doc.data()['start'] as Timestamp).toDate(),
         end: (doc.data()['end'] as Timestamp).toDate()
     ))

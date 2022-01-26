@@ -24,7 +24,7 @@ class CarerToPayDetailsBloc extends Bloc<CarerToPayDetailsEvent, CarerToPayDetai
     final carers = await CarersToPayRepository().getAllCarers();
     List<CarersToPayShiftDataModel> allUnpaidShifts = List.empty(growable: true);
     for(final carer in carers){
-      final unpaidShifts = await CarersToPayRepository().getUnpaidShifts(carer.id);
+      final unpaidShifts = await CarersToPayRepository().getUnpaidShifts(carerId: carer.id, carerName: carer.nickname);
       carer.allUnpaidShifts.addAll(unpaidShifts);
       allUnpaidShifts.addAll(unpaidShifts);
       carer.allUnpaidShifts.sort((a,b) => a.start.compareTo(b.start));
