@@ -116,18 +116,40 @@ class CarerToPayDetailsWidget extends StatelessWidget{
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                margin: EdgeInsets.all(8),
-                                child: ElevatedButton(
-                                  onPressed: () async{
+                                  margin: EdgeInsets.all(8),
+                                  child:
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                              style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty
+                                  .all<Color>(Colors.green)),
+                                    onPressed: () async{
 
 
 
-                                    bloc.add(LoadDataEvent(carerId: this.carerId));
-                                  },
-                                  child: Text('REGISTRAR TURNO',
-                                      style: TextStyle(fontSize: 18)),
-                                ),
+                                      bloc.add(LoadDataEvent(carerId: this.carerId));
+                                    },
+                                    child: Text('WHATSAPP',
+                                        style: TextStyle(fontSize: 18)),
+                                  ),
+                                  Container(width: 10,),
+                                  ElevatedButton(
+                                    onPressed: () async{
+
+
+
+                                      bloc.add(LoadDataEvent(carerId: this.carerId));
+                                    },
+                                    child: Text('PAGAR',
+                                        style: TextStyle(fontSize: 18)),
+                                  )
+                                ],
                               )
+
+                              )
+
                               ,
                               SizedBox(
                                 width: double.infinity,
