@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'CarersListBloc.dart';
-import 'CarersListEvent.dart';
-import 'CarersListState.dart';
+import 'CarersToPayListBloc.dart';
+import 'CarersToPayListEvent.dart';
+import 'CarersToPayListState.dart';
 
-class CarersListWidget extends StatelessWidget{
+class CarersToPayListWidget extends StatelessWidget{
 
-  const CarersListWidget({Key? key}) : super(key: key);
+  const CarersToPayListWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,10 +21,10 @@ class CarersListWidget extends StatelessWidget{
         const Locale('es','CO'),
       ],
       home: BlocProvider(
-        create: (_) => CarersListBloc()..add(LoadDataEvent()),
-        child: BlocBuilder<CarersListBloc, CarersListState>(
+        create: (_) => CarersToPayListBloc()..add(LoadDataEvent()),
+        child: BlocBuilder<CarersToPayListBloc, CarersToPayListState>(
             builder: (context, state) {
-              final bloc = BlocProvider.of<CarersListBloc>(context);
+              final bloc = BlocProvider.of<CarersToPayListBloc>(context);
               if (state is LoadedState) {
                 final carers = state.carers;
                 return Scaffold(
