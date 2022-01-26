@@ -131,7 +131,7 @@ class CarerToPayDetailsWidget extends StatelessWidget{
                                         scheme: 'tel',
                                         path: "677",
                                       );
-                                      await launch('whatsapp://send?phone=353894195242');
+                                      await launch('whatsapp://send?text=${carer.getTextToShare()}');
 
                                       bloc.add(LoadDataEvent(carerId: this.carerId));
                                     },

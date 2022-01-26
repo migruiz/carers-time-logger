@@ -19,6 +19,17 @@ class CarerToPayDataModel{
   double get totalToPay => double.parse((hours * rate).toStringAsFixed(1));
 
 
+  String getTextToShare(){
+    final buffer = StringBuffer();
+
+    buffer.write("Hello\r\n");
+    buffer.write("world");
+    final encodee = Uri.encodeFull(buffer.toString());
+    return encodee;
+
+  }
+
+
   CarerToPayDataModel({required this.id,
     required this.nickname, required this.usualStartHour, required this.rate });
 
