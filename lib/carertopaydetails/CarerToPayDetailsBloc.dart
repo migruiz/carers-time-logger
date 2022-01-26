@@ -19,6 +19,7 @@ class CarerToPayDetailsBloc extends Bloc<CarerToPayDetailsEvent, CarerToPayDetai
       final unpaidShifts = await CarersToPayRepository().getUnpaidShifts(carer.id);
       carer.allUnpaidShifts.addAll(unpaidShifts);
       allUnpaidShifts.addAll(unpaidShifts);
+      carer.allUnpaidShifts.sort((a,b) => a.start.compareTo(b.start));
     }
     for(final unpaidShift in allUnpaidShifts){
       unpaidShift.calculateOverlappingShifts(allUnpaidShifts);
