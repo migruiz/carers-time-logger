@@ -5,3 +5,4 @@ class LoadDataEvent extends CarerToPayDetailsEvent{
   final String carerId;
   LoadDataEvent({ required this.carerId});
 }
+class PayEvent extends CarerToPayDetailsEvent{}

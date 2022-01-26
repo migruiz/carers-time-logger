@@ -144,7 +144,7 @@ class CarerToPayDetailsWidget extends StatelessWidget{
 
 
 
-                                      bloc.add(LoadDataEvent(carerId: this.carerId));
+                                      bloc.add(PayEvent());
                                     },
                                     child: Text('PAGAR',
                                         style: TextStyle(fontSize: 18)),
