@@ -2,6 +2,7 @@ import 'package:carerstimelogger/Extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'carerstopaylist/CarersToPayListWidget.dart';
@@ -29,6 +30,14 @@ class MyApp extends StatelessWidget {
       create: (_) => NavigationBloc(),
       child: MaterialApp(
         title: 'Flutter Demo',
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('es','CO'),
+        ],
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
