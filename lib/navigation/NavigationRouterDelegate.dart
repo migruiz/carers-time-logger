@@ -12,10 +12,10 @@ class NavigationRouterDelegate extends RouterDelegate<NavigationState>
   NavigationState? current;
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<NavigationBloc>(context);
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         current = state;
-        notifyListeners();
         return Navigator(
           key: navigatorKey,
           pages: [
@@ -38,7 +38,6 @@ class NavigationRouterDelegate extends RouterDelegate<NavigationState>
 
   @override
   Future<void> setNewRoutePath(NavigationState navigationState) async{
-    notifyListeners();
     return null;
   }
 
