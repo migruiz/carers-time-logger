@@ -1,4 +1,5 @@
 import 'package:carerstimelogger/Extensions.dart';
+import 'package:carerstimelogger/navigation/NavigationRouteInformationParser.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<NavigationBloc>(
       create: (_) => NavigationBloc(),
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Flutter Demo',
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -41,23 +42,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Router(
-          routerDelegate: NavigationRouterDelegate(),
-        ),
+        routerDelegate: NavigationRouterDelegate(),
+        routeInformationParser: NavigationRouteInformationParser(),
       ),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    //return CarersToPayListWidget();
-    return UnpaidShiftsWidget(carerId: 'miguel',);
-    return MaterialApp(
-    home: Text("Not Found")
-    );
-  }
-}

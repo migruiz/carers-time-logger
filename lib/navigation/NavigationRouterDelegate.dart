@@ -4,16 +4,18 @@ import 'package:carerstimelogger/navigation/NavigationState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NavigationRouterDelegate extends RouterDelegate
+final GlobalKey<NavigatorState> _urlHandlerRouterDelegateNavigatorKey =
+GlobalKey<NavigatorState>();
+class NavigationRouterDelegate extends RouterDelegate<NavigationState>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
-  final GlobalKey<NavigatorState> navigatorKey;
 
-  NavigationRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
-
+  NavigationState? current;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
-      builder: (context, authenticationState) {
+      builder: (context, state) {
+        current = state;
+        notifyListeners();
         return Navigator(
           key: navigatorKey,
           pages: [
@@ -32,5 +34,16 @@ class NavigationRouterDelegate extends RouterDelegate
   }
 
   @override
-  Future<void> setNewRoutePath(configuration) async => null;
+  GlobalKey<NavigatorState> get navigatorKey => _urlHandlerRouterDelegateNavigatorKey;
+
+  @override
+  Future<void> setNewRoutePath(NavigationState navigationState) async{
+    notifyListeners();
+    return null;
+  }
+
+  @override
+  NavigationState get currentConfiguration {
+    return current??PayShiftsState();
+  }
 }
