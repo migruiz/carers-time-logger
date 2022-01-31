@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'carerstopaylist/CarersToPayListWidget.dart';
 import 'firebase_options.dart';
 
-import 'navigation/MyRouterDelegate.dart';
+import 'navigation/NavigationRouterDelegate.dart';
 import 'navigation/NavigationBloc.dart';
 import 'unpaidshifts/UnpaidShiftsWidget.dart';
 
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: Router(
-          routerDelegate: MyRouterDelegate(),
+          routerDelegate: NavigationRouterDelegate(),
         ),
       ),
     );

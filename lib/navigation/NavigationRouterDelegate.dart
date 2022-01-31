@@ -4,11 +4,11 @@ import 'package:carerstimelogger/navigation/NavigationState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyRouterDelegate extends RouterDelegate
+class NavigationRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  MyRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
+  NavigationRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
