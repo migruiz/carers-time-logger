@@ -34,7 +34,11 @@ class NavigationRouterDelegate extends RouterDelegate<NavigationState>
       return [
         MaterialPage(
           key: ValueKey('PayShifts'),
-          child: CarersToPayListWidget(),
+          child: CarersToPayListWidget(onCarerSelected: ({required carerId,required callback}){
+            current=PayShiftsDetailsState(carerId);
+            notifyListeners();
+            callback();
+          }),
         ),
           MaterialPage(
             key: ValueKey('PayShiftsDetails'),
@@ -46,7 +50,11 @@ class NavigationRouterDelegate extends RouterDelegate<NavigationState>
       return [
         MaterialPage(
           key: ValueKey('PayShifts'),
-          child: CarersToPayListWidget(),
+          child: CarersToPayListWidget(onCarerSelected: ({required carerId,required callback}){
+            current=PayShiftsDetailsState(carerId);
+            notifyListeners();
+            callback();
+          }),
         )
       ];
     }

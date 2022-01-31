@@ -10,7 +10,8 @@ import 'CarersToPayListState.dart';
 
 class CarersToPayListWidget extends StatelessWidget{
 
-  const CarersToPayListWidget({Key? key}) : super(key: key);
+  final Function({required String carerId,required Function() callback}) onCarerSelected;
+  const CarersToPayListWidget({Key? key, required  this.onCarerSelected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -44,16 +45,10 @@ class CarersToPayListWidget extends StatelessWidget{
                               itemBuilder: (BuildContext context, int index) {
                                 final carer = carers[index];
                                 return InkWell(
-                                    onTap: () async{
+                                    onTap: () {
+                                      onCarerSelected(carerId: carer.id, callback: (){
 
-                                      await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              fullscreenDialog: true,
-                                              builder: (BuildContext context) =>
-                                                  CarerToPayDetailsWidget(carerId: carer.id)));
-
-                                      bloc.add(LoadDataEvent());
+                                      });
                                     },
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
