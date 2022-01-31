@@ -1,11 +1,14 @@
 import 'package:carerstimelogger/Extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'carerstopaylist/CarersToPayListWidget.dart';
 import 'firebase_options.dart';
 
+import 'navigation/MyRouterDelegate.dart';
+import 'navigation/NavigationBloc.dart';
 import 'unpaidshifts/UnpaidShiftsWidget.dart';
 
 void main() async {
@@ -22,31 +25,17 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider<NavigationBloc>(
+      create: (_) => NavigationBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Router(
+          routerDelegate: MyRouterDelegate(),
+        ),
       ),
-      home: MyHomePage(),
-        onGenerateRoute: (settings) {
-        final routingData = settings.name?.getRoutingData;
-        if (routingData==null)
-          return null;
-          if (routingData.route=='unpaidshifts') {
-            return MaterialPageRoute(
-              builder: (context) {
-                return UnpaidShiftsWidget(carerId: routingData.queryParameters['carer']!,);
-              },
-            );
-          }
-          else if (routingData.route=='payshifts') {
-          return MaterialPageRoute(
-            builder: (context) {
-              return CarersToPayListWidget();
-            },
-          );
-        }
-        }
     );
   }
 }
