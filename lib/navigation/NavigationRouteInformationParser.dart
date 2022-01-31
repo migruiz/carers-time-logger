@@ -7,12 +7,32 @@ class NavigationRouteInformationParser extends RouteInformationParser<Navigation
   @override
   Future<NavigationState> parseRouteInformation(RouteInformation routeInformation) async {
     final String path = routeInformation.location ?? '';
-    return PayShiftsState();
+    final uri = Uri.parse(path);
+    if (uri.pathSegments.length==1){
+      final first = uri.pathSegments[0].toLowerCase();
+      if (first=="payshifts"){
+        return PayShiftsState();
+      }
+    }
+    else  if (uri.pathSegments.length==2){
+      final first = uri.pathSegments[0].toLowerCase();
+      final second = uri.pathSegments[1].toLowerCase();
+      if (first=="payshifts"){
+        return PayShiftsDetailsState(second);
+      }
+    }
+    return RouteNotFoundState();
   }
 
   ///update the URL bar with the latest URL from the app
   @override
-  RouteInformation? restoreRouteInformation(NavigationState configuration) {
-    return RouteInformation(location: '/payshifts');
+  RouteInformation? restoreRouteInformation(NavigationState state) {
+    if (state is PayShiftsState) {
+      return RouteInformation(location: '/payshifts');
+    }
+    else if (state is PayShiftsDetailsState) {
+      return RouteInformation(location: '/payshifts/${state.carerId}');
+    }
+    return RouteInformation(location: '/404');
   }
 }

@@ -6,6 +6,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc() : super(RouteNotFoundState()){
     on<NotFoundRouteEvent>(_onNotFoundRouteEvent);
     on<PayShiftsEvent>(_onPayShiftsEvent);
+    on<PayShiftsDetailsEvent>(_onPayShiftsDetailsEvent);
   }
 
 
@@ -17,6 +18,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       PayShiftsEvent event, Emitter<NavigationState> emit) async {
     emit(PayShiftsState());
   }
-
+  void _onPayShiftsDetailsEvent(
+      PayShiftsDetailsEvent event, Emitter<NavigationState> emit) async {
+    emit(PayShiftsDetailsState(event.carerId));
+  }
 
 }
