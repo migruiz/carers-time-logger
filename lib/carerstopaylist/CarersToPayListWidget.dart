@@ -1,4 +1,6 @@
 import 'package:carerstimelogger/carertopaydetails/CarerToPayDetailsWidget.dart';
+import 'package:carerstimelogger/navigation/NavigationBloc.dart';
+import 'package:carerstimelogger/navigation/NavigationEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,6 +19,7 @@ class CarersToPayListWidget extends StatelessWidget{
       child: BlocBuilder<CarersToPayListBloc, CarersToPayListState>(
           builder: (context, state) {
             final bloc = BlocProvider.of<CarersToPayListBloc>(context);
+            final navBloc = BlocProvider.of<NavigationBloc>(context);
             if (state is LoadedState) {
               final carers = state.carers;
               return Scaffold(
@@ -44,6 +47,7 @@ class CarersToPayListWidget extends StatelessWidget{
                                 final carer = carers[index];
                                 return InkWell(
                                     onTap: () {
+                                      navBloc.add(PayShiftsDetailsEvent(carerId: carer.id));
                                     },
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,

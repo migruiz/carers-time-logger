@@ -4,5 +4,5 @@ class PayShiftsEvent extends NavigationEvent{}
 class PayShiftsDetailsEvent extends NavigationEvent{
   final String carerId;
 
-  PayShiftsDetailsEvent(this.carerId);
+  PayShiftsDetailsEvent({required this.carerId});
 }
