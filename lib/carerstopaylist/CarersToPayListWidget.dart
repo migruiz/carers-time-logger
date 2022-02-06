@@ -46,8 +46,15 @@ class CarersToPayListWidget extends StatelessWidget{
                               itemBuilder: (BuildContext context, int index) {
                                 final carer = carers[index];
                                 return InkWell(
-                                    onTap: () {
-                                      context.go('/carer/${carer.id}');
+                                    onTap: () async{
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              fullscreenDialog: true,
+                                              builder: (BuildContext context) =>
+                                                  CarerToPayDetailsWidget(carerId: carer.id)));
+
+                                      bloc.add(LoadDataEvent());
                                     },
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,

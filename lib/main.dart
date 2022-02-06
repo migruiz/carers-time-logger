@@ -32,13 +32,15 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
+        builder: (context, state) => Text("Root"),
+      ),
+      GoRoute(
+        path: '/paycarers',
         builder: (context, state) => CarersToPayListWidget(),
-        routes: [
-          GoRoute(
-            path: 'carer/:carerId',
-            builder: (context, state) => CarerToPayDetailsWidget(carerId: state.params['carerId']!,),
-          ),
-        ]
+      ),
+      GoRoute(
+        path: '/entryTime/:carerId',
+        builder: (context, state) => UnpaidShiftsWidget(carerId: state.params['carerId']!.toLowerCase(),),
       ),
     ],
   );
