@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'carerstopaylist/CarersToPayListWidget.dart';
@@ -26,11 +27,28 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+  final _router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => CarersToPayListWidget(),
+        routes: [
+          GoRoute(
+            path: 'carer/:carerId',
+            builder: (context, state) => CarerToPayDetailsWidget(carerId: state.params['carerId']!,),
+          ),
+        ]
+      ),
+    ],
+  );
+
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NavigationBloc>(
       create: (_) => NavigationBloc()..add(PayShiftsEvent()),
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Flutter Demo',
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -40,20 +58,8 @@ class MyApp extends StatelessWidget {
         supportedLocales: [
           const Locale('es','CO'),
         ],
-        home: BlocBuilder<NavigationBloc, NavigationState>(
-          builder: (context, state) {
-            if (state is PayShiftsState) {
-              return CarersToPayListWidget();
-            }
-            else if (state is PayShiftsDetailsState){
-              return CarerToPayDetailsWidget(carerId: state.carerId);
-            }
-            else{
-              return Text("Not Found");
-            }
-        }
-        )
-    ,
+          routeInformationParser: _router.routeInformationParser,
+          routerDelegate: _router.routerDelegate,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

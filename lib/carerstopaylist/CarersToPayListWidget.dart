@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
-
+import 'package:go_router/go_router.dart';
 import 'CarersToPayListBloc.dart';
 import 'CarersToPayListEvent.dart';
 import 'CarersToPayListState.dart';
@@ -47,7 +47,7 @@ class CarersToPayListWidget extends StatelessWidget{
                                 final carer = carers[index];
                                 return InkWell(
                                     onTap: () {
-                                      navBloc.add(PayShiftsDetailsEvent(carerId: carer.id));
+                                      context.go('/carer/${carer.id}');
                                     },
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
