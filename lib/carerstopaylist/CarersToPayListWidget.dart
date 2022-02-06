@@ -10,8 +10,6 @@ import 'CarersToPayListState.dart';
 
 class CarersToPayListWidget extends StatelessWidget{
 
-  final Function({required String carerId,required Function() callback}) onCarerSelected;
-  const CarersToPayListWidget({Key? key, required  this.onCarerSelected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,9 +44,6 @@ class CarersToPayListWidget extends StatelessWidget{
                                 final carer = carers[index];
                                 return InkWell(
                                     onTap: () {
-                                      onCarerSelected(carerId: carer.id, callback: (){
-
-                                      });
                                     },
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
