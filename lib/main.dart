@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<NavigationBloc>(
       create: (_) => NavigationBloc(),
-      child: MaterialApp.router(
+      child: MaterialApp(
         title: 'Flutter Demo',
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -42,8 +42,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        routerDelegate: NavigationRouterDelegate(),
-        routeInformationParser: NavigationRouteInformationParser(),
       ),
     );
   }
