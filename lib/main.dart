@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => Text("Root"),
+        builder: (context, state) => Text("Base Route"),
       ),
       GoRoute(
         path: '/paycarers',
