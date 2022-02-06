@@ -1,4 +1,5 @@
 import 'package:carerstimelogger/Extensions.dart';
+import 'package:carerstimelogger/carertopaydetails/CarerToPayDetailsWidget.dart';
 import 'package:carerstimelogger/navigation/NavigationEvent.dart';
 import 'package:carerstimelogger/navigation/NavigationState.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,15 @@ class MyApp extends StatelessWidget {
         ],
         home: BlocBuilder<NavigationBloc, NavigationState>(
           builder: (context, state) {
-            return CarersToPayListWidget();
+            if (state is PayShiftsState) {
+              return CarersToPayListWidget();
+            }
+            else if (state is PayShiftsDetailsState){
+              return CarerToPayDetailsWidget(carerId: state.carerId);
+            }
+            else{
+              return Text("Not Found");
+            }
         }
         )
     ,
