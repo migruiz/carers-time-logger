@@ -18,15 +18,16 @@ class CarersToPayListBloc extends Bloc<CarersToPayListEvent, CarersToPayListStat
       LoadDataEvent event, Emitter<CarersToPayListState> emit) async {
     emit(LoadingState());
     final carers = await CarersToPayRepository().getAllCarers();
-    List<CarersToPayShiftDataModel> allUnpaidShifts = List.empty(growable: true);
+    List<CarersToPayShiftDataModel> allCarersShifts = List.empty(growable: true);
     for(final carer in carers){
       final unpaidShifts = await CarersToPayRepository().getUnpaidShifts(carerId: carer.id, carerName: carer.nickname);
       final paidShifts = await CarersToPayRepository().getLastPaidShifts(carerId: carer.id, carerName: carer.nickname);
       carer.allUnpaidShifts.addAll(unpaidShifts);
-      allUnpaidShifts.addAll(unpaidShifts);
+      allCarersShifts.addAll(unpaidShifts);
+      allCarersShifts.addAll(paidShifts);
     }
-    for(final unpaidShift in allUnpaidShifts){
-      unpaidShift.calculateOverlappingShifts(allUnpaidShifts);
+    for(final carerShift in allCarersShifts){
+      carerShift.calculateOverlappingShifts(allCarersShifts);
     }
     emit(LoadedState(carers: carers));
   }
