@@ -46,4 +46,24 @@ class CarersToPayRepository{
         .toList();
     return shifts;
   }
+  Future<List<CarersToPayShiftDataModel>> getLastPaidShifts({required String carerId, required String carerName}) async{
+    final carerPaymentsCollection =  FirebaseFirestore.instance.collection('carers/$carerId/payments');
+    final snapshotcarerPaymentsCollection = await carerPaymentsCollection.get();
+    final paymentIds = snapshotcarerPaymentsCollection.docs.map((doc) => doc.id);
+    final List<CarersToPayShiftDataModel> paidShiftsTotal = List.empty(growable: true);
+    for(final paymentId in paymentIds.toList()) {
+      final carerShiftsCollection = FirebaseFirestore.instance.collection('carers/$carerId/payments/$paymentId/shifts');
+      final snapshot = await carerShiftsCollection.get();
+      final shifts = snapshot.docs
+          .map((doc) => CarersToPayShiftDataModel(
+          id: doc.id,
+          carerName: carerName,
+          start: (doc.data()['start'] as Timestamp).toDate(),
+          end: (doc.data()['end'] as Timestamp).toDate()
+      )).toList();
+      paidShiftsTotal.addAll(shifts);
+    }
+    return paidShiftsTotal;
+  }
+
 }
