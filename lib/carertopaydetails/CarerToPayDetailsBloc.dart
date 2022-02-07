@@ -22,15 +22,17 @@ class CarerToPayDetailsBloc extends Bloc<CarerToPayDetailsEvent, CarerToPayDetai
 
   Future<CarerToPayDataModel> _getCarer(String carerId) async {
     final carers = await CarersToPayRepository().getAllCarers();
-    List<CarersToPayShiftDataModel> allUnpaidShifts = List.empty(growable: true);
+    List<CarersToPayShiftDataModel> allCarersShifts = List.empty(growable: true);
     for(final carer in carers){
       final unpaidShifts = await CarersToPayRepository().getUnpaidShifts(carerId: carer.id, carerName: carer.nickname);
+      final paidShifts = await CarersToPayRepository().getLastPaidShifts(carerId: carer.id, carerName: carer.nickname);
       carer.allUnpaidShifts.addAll(unpaidShifts);
-      allUnpaidShifts.addAll(unpaidShifts);
+      allCarersShifts.addAll(unpaidShifts);
+      allCarersShifts.addAll(paidShifts);
       carer.allUnpaidShifts.sort((a,b) => a.start.compareTo(b.start));
     }
-    for(final unpaidShift in allUnpaidShifts){
-      unpaidShift.calculateOverlappingShifts(allUnpaidShifts);
+    for(final carerShift in allCarersShifts){
+      carerShift.calculateOverlappingShifts(allCarersShifts);
     }
     final carer = carers.firstWhere((element) => element.id==carerId);
     return carer;
