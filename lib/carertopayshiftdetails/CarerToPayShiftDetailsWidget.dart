@@ -70,10 +70,10 @@ class CarerToPayShiftDetailsWidget extends StatelessWidget {
                             (entry.value / (1000 * 60 * 60))
                                 .toStringAsFixed(1));
                         return Column(children: [
-                          Container(
-                            width: double.infinity,
-                            color: Colors.redAccent,
-                            height: 3,
+                          Divider(
+                            height: 40,
+                            thickness: 1,
+                            color: Colors.red,
                           ),
                           Row(
                             children: [
@@ -81,62 +81,66 @@ class CarerToPayShiftDetailsWidget extends StatelessWidget {
                                   alignment: Alignment.centerLeft,
                                   child: Text(shiftData.carerName,
                                       style: TextStyle(
-                                          color: Colors.black, fontSize: 18))),
+                                          color: Colors.black, fontSize: 16,fontWeight: FontWeight.bold))),
                               Expanded(
                                   child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(shift.carerName,
                                           style: TextStyle(
-                                              color: Colors.deepPurple,
-                                              fontSize: 18))))
+                                              color: Colors.blue,
+                                              fontSize: 16,fontWeight: FontWeight.bold))))
                             ],
                           ),
+                          Align(
+                              alignment: interval.entry1.isMe
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
+                              child: Text(
+                                  interval.entry1.date
+                                      .fromLocalToColombianTime()
+                                      .formatDateTime()
+                                      .toCapitalized(),
+                                  style: TextStyle(
+                                      color: interval.entry1.isMe
+                                          ? Colors.black
+                                          : Colors.blue,
+                                      fontSize: 14))),
                           Container(
                             width: double.infinity,
-                            color: Colors.redAccent,
+                            color: Color.fromARGB(80, 255, 102, 102),
                             child: Align(
-                                alignment: interval.entry1.isMe
+                                alignment: interval.entry2.isMe
                                     ? Alignment.centerLeft
                                     : Alignment.centerRight,
                                 child: Text(
-                                    interval.entry1.date
+                                    interval.entry2.date
                                         .fromLocalToColombianTime()
                                         .formatDateTime()
                                         .toCapitalized(),
                                     style: TextStyle(
-                                        color: interval.entry1.isMe
+                                        color: interval.entry2.isMe
                                             ? Colors.black
-                                            : Colors.deepPurple,
+                                            : Colors.blue,
                                         fontSize: 14))),
                           ),
-                          Align(
-                              alignment: interval.entry2.isMe
-                                  ? Alignment.centerLeft
-                                  : Alignment.centerRight,
-                              child: Text(
-                                  interval.entry2.date
-                                      .fromLocalToColombianTime()
-                                      .formatDateTime()
-                                      .toCapitalized(),
-                                  style: TextStyle(
-                                      color: interval.entry2.isMe
-                                          ? Colors.black
-                                          : Colors.deepPurple,
-                                      fontSize: 14))),
-                          Align(
-                              alignment: interval.entry3.isMe
-                                  ? Alignment.centerLeft
-                                  : Alignment.centerRight,
-                              child: Text(
-                                  interval.entry3.date
-                                      .fromLocalToColombianTime()
-                                      .formatDateTime()
-                                      .toCapitalized(),
-                                  style: TextStyle(
-                                      color: interval.entry3.isMe
-                                          ? Colors.black
-                                          : Colors.deepPurple,
-                                      fontSize: 14))),
+                          Container(
+                            width: double.infinity,
+                            color: Color.fromARGB(80, 255, 102, 102),
+                            child: Align(
+                                alignment: interval.entry3.isMe
+                                    ? Alignment.centerLeft
+                                    : Alignment.centerRight,
+                                child: Text(
+                                    interval.entry3.date
+                                        .fromLocalToColombianTime()
+                                        .formatDateTime()
+                                        .toCapitalized(),
+                                    style: TextStyle(
+                                        color: interval.entry3.isMe
+                                            ? Colors.black
+                                            : Colors.blue,
+                                        fontSize: 14))),
+                          ),
                           Align(
                               alignment: interval.entry4.isMe
                                   ? Alignment.centerLeft
@@ -149,11 +153,12 @@ class CarerToPayShiftDetailsWidget extends StatelessWidget {
                                   style: TextStyle(
                                       color: interval.entry4.isMe
                                           ? Colors.black
-                                          : Colors.deepPurple,
+                                          : Colors.blue,
                                       fontSize: 14))),
                           Divider(
                             height: 40,
                             thickness: 1,
+                            color: Colors.red,
                           )
                         ]);
                       })),
