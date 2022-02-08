@@ -72,58 +72,62 @@ class CarerToPayShiftDetailsWidget extends StatelessWidget{
                           final interval = shiftData.getOverlapInterval(shift);
                           final totalOverlapHours = double.parse((entry.value / (1000 * 60 * 60)).toStringAsFixed(1));
                           return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Container(width: double.infinity,color: Colors.redAccent,height: 3,),
                                 Row(
                                   children: [
-                                    Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            shift.carerName,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.red,
-                                                fontSize: 18),
-                                          ),
-                                          Text(
-                                            shift.start
-                                                .fromLocalToColombianTime()
-                                                .formatDateTime()
-                                                .toCapitalized(),
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 16),
-                                          ),
-                                          Container(
-                                              margin: EdgeInsets.only(left:20),
-                                              child:Text("↓",style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 20))),
-                                          Text(
-                                            shift.end
-                                                .fromLocalToColombianTime()
-                                                .formatDateTime()
-                                                .toCapitalized(),
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 16),
-                                          ),
-                                          Text(
-                                            "** $totalOverlapHours horas cruzadas **",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.red,
-                                                fontSize: 14),
-                                          ),
-                                        ]),
-
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(shiftData.carerName, style: TextStyle(color:Colors.black,
+                                            fontSize: 18))
+                                    ),
+                                    Expanded(child:
+                                    Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(shift.carerName, style: TextStyle(color:Colors.deepPurple,
+                                            fontSize: 18))
+                                    )
+                                    )
 
                                   ],
+                                ),
+                                Container(width: double.infinity,color: Colors.redAccent,child:
+                          Align(
+                          alignment: interval.entry1.isMe?Alignment.centerLeft:Alignment.centerRight,
+                          child: Text(interval.entry1.date
+                              .fromLocalToColombianTime()
+                              .formatDateTime()
+                              .toCapitalized(), style: TextStyle(color: interval.entry1.isMe?Colors.black:Colors.deepPurple,
+                          fontSize: 14))
+                          ),),
+
+
+                                Align(
+                                    alignment: interval.entry2.isMe?Alignment.centerLeft:Alignment.centerRight,
+                                    child: Text(interval.entry2.date
+                                        .fromLocalToColombianTime()
+                                        .formatDateTime()
+                                        .toCapitalized(), style: TextStyle(color: interval.entry2.isMe?Colors.black:Colors.deepPurple,
+                                        fontSize: 14))
+                                ),
+
+
+                                Align(
+                                    alignment: interval.entry3.isMe?Alignment.centerLeft:Alignment.centerRight,
+                                    child: Text(interval.entry3.date
+                                        .fromLocalToColombianTime()
+                                        .formatDateTime()
+                                        .toCapitalized(), style: TextStyle(color: interval.entry3.isMe?Colors.black:Colors.deepPurple,
+                                        fontSize: 14))
+                                ),
+
+                                Align(
+                                    alignment: interval.entry4.isMe?Alignment.centerLeft:Alignment.centerRight,
+                                    child: Text(interval.entry4.date
+                                        .fromLocalToColombianTime()
+                                        .formatDateTime()
+                                        .toCapitalized(), style: TextStyle(color: interval.entry4.isMe?Colors.black:Colors.deepPurple,
+                                        fontSize: 14))
                                 ),
                                 Divider(
                                   height: 40,
