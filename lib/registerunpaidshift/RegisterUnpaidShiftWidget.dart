@@ -255,7 +255,17 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
                             confirmText: 'CONFIRMAR',
                             initialTime: state.suggestedEnd.fromLocalToColombianTime()
                                 .timeOfDay(),
-                          );
+                              builder: (context, child) {
+                                if (MediaQuery.of(context).alwaysUse24HourFormat) {
+                                  return child!;
+                                } else {
+                                  return Localizations.override(
+                                    context: context,
+                                    locale: Locale('en', 'US'),
+                                    child: child,
+                                  );
+                                }
+                              });
                           if (timeResult!=null){
                             final endDateTime = dateResult.combine(timeValue: timeResult);
                             bloc.add(EndDateTimeEvent(endDateTime));
@@ -292,7 +302,18 @@ class RegisterUnpaidShiftWidget extends StatelessWidget{
             cancelText: 'CANCELAR',
             confirmText: 'CONFIRMAR',
             initialTime: state.suggestedStart.fromLocalToColombianTime()
-                .timeOfDay()
+                .timeOfDay(),
+              builder: (context, child) {
+                if (MediaQuery.of(context).alwaysUse24HourFormat) {
+                  return child!;
+                } else {
+                  return Localizations.override(
+                    context: context,
+                    locale: Locale('en', 'US'),
+                    child: child,
+                  );
+                }
+              }
           );
           if (timeResult!=null){
             final startDateTime = dateResult.combine(timeValue: timeResult);
