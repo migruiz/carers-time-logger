@@ -1,11 +1,29 @@
 import 'package:carerstimelogger/unpaidshifts/UnpaidShiftsRepository.dart';
 
+import 'OverlapHistoryEntry.dart';
+
 class CarersToPayShiftDataModel {
   final DateTime start;
   final DateTime end;
   final String id;
   final String carerName;
   final Map<CarersToPayShiftDataModel,int> overlappedShifts = Map();
+
+  OverlapInterval getOverlapInterval(CarersToPayShiftDataModel overlapShift){
+    final List<OverlapHistoryEntry> list = List.empty(growable: true);
+    list.add(OverlapHistoryEntry(carerName: this.carerName, isMe: true, date: this.start));
+    list.add(OverlapHistoryEntry(carerName: this.carerName, isMe: true, date: this.end));
+    list.add(OverlapHistoryEntry(carerName: overlapShift.carerName, isMe: false, date: overlapShift.start));
+    list.add(OverlapHistoryEntry(carerName: overlapShift.carerName, isMe: false, date: overlapShift.end));
+    list.sort((a,b) => a.date.compareTo(b.date));
+
+    return OverlapInterval(
+      entry1: list[0],
+      entry2: list[1],
+      entry3: list[2],
+      entry4: list[3],
+    );
+  }
 
   bool get isOverlapping => overlappedShifts.isNotEmpty;
 

@@ -69,6 +69,7 @@ class CarerToPayShiftDetailsWidget extends StatelessWidget{
                         itemBuilder: (BuildContext context, int index) {
                           final entry = shiftData.overlappedShifts.entries.toList()[index];
                           final shift = entry.key;
+                          final interval = shiftData.getOverlapInterval(shift);
                           final totalOverlapHours = double.parse((entry.value / (1000 * 60 * 60)).toStringAsFixed(1));
                           return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
